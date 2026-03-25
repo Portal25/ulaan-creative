@@ -1210,6 +1210,87 @@
   .chat-send:active { transform: scale(.94); }
   .chat-send:disabled { background: var(--border); cursor: not-allowed; transform: none; }
 
+
+  /* ===== NEWS & MARKET PAGES ===== */
+  .news-grid { display: flex; flex-direction: column; gap: 16px; }
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: border-color .2s;
+    cursor: pointer;
+  }
+  .news-card:hover { border-color: rgba(227,21,21,.35); }
+  .news-card.translated { border-left: 3px solid var(--gold); }
+
+  .news-source { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .news-title-en { font-size: 13px; color: var(--muted); margin-bottom: 8px; line-height: 1.5; }
+  .news-title-mn { font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.4; }
+  .news-body-mn { font-size: 13px; color: #c8c2bc; line-height: 1.75; }
+  .news-meta { display: flex; gap: 12px; margin-top: 12px; align-items: center; }
+  .news-time { font-size: 11px; color: var(--muted); }
+  .news-tag { font-size: 10px; letter-spacing: .5px; padding: 2px 8px; border-radius: 20px; background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(227,21,21,.2); }
+  .news-translate-btn { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border); background: none; color: var(--muted); cursor: pointer; margin-left: auto; transition: all .15s; font-family: 'DM Sans', sans-serif; }
+  .news-translate-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .news-translate-btn.done { border-color: rgba(92,224,130,.4); color: #5ce082; }
+
+  .news-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+  .news-filter-btn { padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--muted); font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+  .news-filter-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+  .news-filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .news-refresh-btn { padding: 7px 16px; border-radius: 8px; background: var(--gold); border: none; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-left: auto; display: flex; align-items: center; gap: 6px; transition: background .2s; }
+  .news-refresh-btn:hover { background: var(--gold-light); }
+  .news-refresh-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  .news-loading { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .news-loading .loading-icon { font-size: 36px; margin-bottom: 12px; animation: spin .8s linear infinite; display: inline-block; }
+  .news-empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .news-empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+  /* Finance specific */
+  .finance-article-body { font-size: 13.5px; line-height: 1.85; color: #d0cac4; white-space: pre-wrap; }
+  .finance-article-header { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 10px; line-height: 1.3; }
+  .finance-article-meta { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+  .finance-article-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; transition: border-color .2s; }
+  .finance-article-card:hover { border-color: rgba(227,21,21,.3); }
+  .finance-article-card.full { border-left: 3px solid var(--gold); }
+
+  /* Crypto page */
+  .crypto-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .crypto-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; transition: all .2s; }
+  .crypto-card:hover { border-color: rgba(227,21,21,.3); transform: translateY(-2px); }
+  .crypto-name { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .crypto-symbol { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .crypto-price { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; color: var(--text); margin: 10px 0 4px; }
+  .crypto-change { font-size: 13px; font-weight: 600; }
+  .crypto-change.up { color: #5ce082; }
+  .crypto-change.down { color: #e05c5c; }
+  .crypto-volume { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  .stock-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .stock-table th { padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); background: rgba(227,21,21,.05); font-weight: 600; }
+  .stock-table td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; }
+  .stock-table tr:last-child td { border-bottom: none; }
+  .stock-table tr:hover td { background: rgba(255,255,255,.02); }
+  .stock-ticker { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--gold); font-size: 13px; }
+  .stock-price { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 700; }
+  .stock-ch-up { color: #5ce082; font-weight: 600; }
+  .stock-ch-down { color: #e05c5c; font-weight: 600; }
+
+  .market-section-title { font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 14px; margin-top: 28px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .market-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .market-last-update { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+
+  .translate-all-btn { padding: 9px 20px; background: var(--gold); border: none; color: #fff; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Montserrat', sans-serif; letter-spacing: .5px; transition: background .2s; display: flex; align-items: center; gap: 6px; }
+  .translate-all-btn:hover { background: var(--gold-light); }
+  .translate-all-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  .auto-refresh-toggle { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .toggle-switch { width: 32px; height: 18px; background: var(--border); border-radius: 9px; cursor: pointer; position: relative; transition: background .2s; }
+  .toggle-switch.on { background: var(--gold); }
+  .toggle-switch::after { content: ''; position: absolute; width: 14px; height: 14px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: left .2s; }
+  .toggle-switch.on::after { left: 16px; }
 </style>
 </head>
 <body>
@@ -1232,11 +1313,11 @@
       <!-- Method buttons -->
       <button class="auth-method-btn" id="method-btn-phone" onclick="selectMethod('phone')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.77a19.79 19.79 0 01-3.07-8.67A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.16a16 16 0 006.93 6.93l1.52-1.52a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        Утасны дугаараар үргэлжлүүлэх
+        Утасны дугаараар нэвтрэх
       </button>
       <button class="auth-method-btn" id="method-btn-email" onclick="selectMethod('email')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Имэйлээр үргэлжлүүлэх
+        Имэйлээр нэвтрэх
       </button>
       <button class="auth-method-btn" id="method-btn-facebook" onclick="loginWithFacebook()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971h-1.513c-1.491 0-1.956.93-1.956 1.883v2.27h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
@@ -1298,7 +1379,7 @@
       </div>
       <div class="auth-secure">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Улаан Creative-гаар хамгаалагдсан
+        🔒 Улаан Creative-гаар хамгаалагдсан
       </div>
     </div>
 
@@ -1388,6 +1469,9 @@
 
   <nav class="nav">
     <div class="nav-section">Owner</div>
+    <div class="nav-item" onclick="navigate('settings')">
+      <span class="nav-icon">⚙️</span> API Тохиргоо
+    </div>
     <div class="nav-item" id="nav-owner" onclick="openOwnerLogin()" style="color:#e31515;">
       <span class="nav-icon">👑</span> Owner Panel
     </div>
@@ -1402,7 +1486,7 @@
       <span class="nav-icon">⊡</span> Workspace
     </div>
 
-    <div class="nav-section">Agents</div>
+    <div class="nav-section">AI Агентууд</div>
     <div class="nav-item" onclick="navigate('agents')">
       <span class="nav-icon">🤖</span> AI Agents
     </div>
@@ -1415,16 +1499,27 @@
       <span class="nav-icon">◈</span> Ad Copy
     </div>
     <div class="nav-item" onclick="openTool('email')">
-      <span class="nav-icon">✉</span> Email Campaign
+      <span class="nav-icon">✉</span> Имэйл Кампейн
     </div>
     <div class="nav-item" onclick="openTool('seo')">
-      <span class="nav-icon">◎</span> SEO Content
+      <span class="nav-icon">◎</span> SEO Контент
     </div>
     <div class="nav-item" onclick="openTool('brand')">
-      <span class="nav-icon">❋</span> Brand Voice
+      <span class="nav-icon">❋</span> Брэндийн Хэл Найруулга
     </div>
     <div class="nav-item" onclick="openTool('ideas')">
-      <span class="nav-icon">◆</span> Campaign Ideas
+      <span class="nav-icon">◆</span> Кампейны Санаа
+    </div>
+
+    <div class="nav-section">📡 Мэдээ & Зах зээл</div>
+    <div class="nav-item" onclick="navigate('news-marketing')">
+      <span class="nav-icon">📣</span> Маркетингийн Мэдээ
+    </div>
+    <div class="nav-item" onclick="navigate('news-finance')">
+      <span class="nav-icon">💹</span> Санхүүгийн Мэдээ
+    </div>
+    <div class="nav-item" onclick="navigate('crypto')">
+      <span class="nav-icon">₿</span> Хувьцаа & Крипто
     </div>
   </nav>
 
@@ -1450,8 +1545,8 @@
   <div class="page active" id="page-dashboard">
     <div class="page-header">
       <div>
-        <div class="page-title">Welcome to UC Agency</div>
-        <div class="page-desc">Таны AI маркетинг агентлаг бэлэн байна</div>
+        <div class="page-title">Улаан Creative-д тавтай морилно уу</div>
+        <div class="page-desc">Таны AI маркетинг туслах бэлэн байна</div>
       </div>
       <div class="ai-badge"><div class="ai-dot"></div> <span class="ai-label">AI Online</span></div>
     </div>
@@ -1477,102 +1572,56 @@
       </div>
 
       <div class="section-title">Quick Actions</div>
-      <div class="tools-grid">
+            <div class="tools-grid">
         <div class="tool-card" onclick="openTool('social')">
           <span class="tool-emoji">📱</span>
-          <div class="tool-name">Social Media</div>
-          <div class="tool-desc">Instagram, Facebook, Twitter, LinkedIn зэрэг платформ дахь постуудыг хялбархан үүсгэ.</div>
-          <div class="tool-tag">◉ Social</div>
+          <div class="tool-name">Нийгмийн Сүлжээний Пост</div>
+          <div class="tool-desc">Платформ бүрт тохирсон, идэвхжилт өндөртэй постууд үүсгэ.</div>
+          <span class="badge badge-social">Нийгмийн сүлжээ</span>
         </div>
         <div class="tool-card" onclick="openTool('ads')">
           <span class="tool-emoji">🎯</span>
-          <div class="tool-name">Ad Copy</div>
-          <div class="tool-desc">Click-through rate өндөртэй, хөрвөлтийн зорилготой реклам текст бичих.</div>
-          <div class="tool-tag">◈ Ads</div>
+          <div class="tool-name">Зар Сурталчилгааны Текст</div>
+          <div class="tool-desc">Өндөр хөрвөлттэй реклам текст — Google, Meta, TikTok.</div>
+          <span class="badge badge-copy">Зар</span>
         </div>
         <div class="tool-card" onclick="openTool('email')">
           <span class="tool-emoji">📧</span>
-          <div class="tool-name">Email Campaign</div>
-          <div class="tool-desc">Нээлт өндөртэй, хөрвөлт авчрах имэйл кампани бичих.</div>
-          <div class="tool-tag">✉ Email</div>
+          <div class="tool-name">Имэйл Кампейн</div>
+          <div class="tool-desc">Subject line-аас CTA хүртэл бүгдийг AI-аар автоматаар бич.</div>
+          <span class="badge badge-copy">Имэйл</span>
         </div>
         <div class="tool-card" onclick="openTool('seo')">
           <span class="tool-emoji">🔍</span>
-          <div class="tool-name">SEO Content</div>
-          <div class="tool-desc">Google дээр эхний байранд гарах SEO-д оновчлогдсон контент үүсгэх.</div>
-          <div class="tool-tag">◎ SEO</div>
-        </div>
-        <div class="tool-card" onclick="openTool('brand')">
-          <span class="tool-emoji">💎</span>
-          <div class="tool-name">Brand Voice</div>
-          <div class="tool-desc">Брэндийн өнгө аяс, хэв маягийг тогтоож, бүх контентдоо нийцүүлэх.</div>
-          <div class="tool-tag">❋ Brand</div>
-        </div>
-        <div class="tool-card" onclick="openTool('ideas')">
-          <span class="tool-emoji">💡</span>
-          <div class="tool-name">Campaign Ideas</div>
-          <div class="tool-desc">Бизнесдээ тохирох бүтэн маркетинг кампаний стратеги боловсруулах.</div>
-          <div class="tool-tag">◆ Strategy</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="section-title">Recent Outputs</div>
-      <div class="history-list" id="history-list">
-        <div style="color: var(--muted); font-size:13px; padding: 20px 0; text-align:center;">
-          Одоохондоо хоосон байна. Аль нэг хэрэгслийг ашиглаж эхлээрэй!
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOOLS PAGE -->
-  <div class="page" id="page-tools">
-    <div class="page-header">
-      <div>
-        <div class="page-title">AI Tools</div>
-        <div class="page-desc">Маркетингийн бүх хэрэгцээнд зориулсан AI хэрэгслүүд</div>
-      </div>
-    </div>
-    <div class="page-content">
-      <div class="tools-grid">
-        <div class="tool-card" onclick="openTool('social')">
-          <span class="tool-emoji">📱</span>
-          <div class="tool-name">Social Media Posts</div>
-          <div class="tool-desc">Платформ бүрт тохирсон, engagement өндөртэй постууд үүсгэ.</div>
-          <span class="badge badge-social">Social</span>
-        </div>
-        <div class="tool-card" onclick="openTool('ads')">
-          <span class="tool-emoji">🎯</span>
-          <div class="tool-name">Ad Copy Generator</div>
-          <div class="tool-desc">Хөрвөлт өндөртэй реклам текст — Google, Meta, TikTok.</div>
-          <span class="badge badge-copy">Copy</span>
-        </div>
-        <div class="tool-card" onclick="openTool('email')">
-          <span class="tool-emoji">📧</span>
-          <div class="tool-name">Email Campaigns</div>
-          <div class="tool-desc">Subject line-аас эхлэн CTA хүртэл бүх зүйлийг AI-аар бичих.</div>
-          <span class="badge badge-copy">Email</span>
-        </div>
-        <div class="tool-card" onclick="openTool('seo')">
-          <span class="tool-emoji">🔍</span>
-          <div class="tool-name">SEO Blog Writer</div>
-          <div class="tool-desc">Keyword-д оновчлогдсон, ranking-д тусалдаг блог нийтлэл.</div>
+          <div class="tool-name">SEO Блог Бичигч</div>
+          <div class="tool-desc">Keyword-д оновчлогдсон, Google эрэмбэлэлтэд тусалдаг блог нийтлэл.</div>
           <span class="badge badge-seo">SEO</span>
         </div>
         <div class="tool-card" onclick="openTool('brand')">
           <span class="tool-emoji">💎</span>
-          <div class="tool-name">Brand Voice Builder</div>
-          <div class="tool-desc">Брэндийн өнгө аясыг тодорхойлж, messaging guide боловсруулах.</div>
-          <span class="badge badge-brand">Brand</span>
+          <div class="tool-name">Брэндийн Хэл Найруулга</div>
+          <div class="tool-desc">Брэндийн өнгө аясыг тодорхойлж, messaging guide бэлтгэ.</div>
+          <span class="badge badge-brand">Брэнд</span>
         </div>
         <div class="tool-card" onclick="openTool('ideas')">
           <span class="tool-emoji">💡</span>
-          <div class="tool-name">Campaign Strategist</div>
-          <div class="tool-desc">Бүтэн маркетинг кампаний санаа, тактик, timeline.</div>
-          <span class="badge badge-seo">Strategy</span>
+          <div class="tool-name">Кампейний Стратеги</div>
+          <div class="tool-desc">Бүрэн маркетинг кампанийн санаа, тактик, цагийн хуваарь.</div>
+          <span class="badge badge-seo">Стратеги</span>
         </div>
+        <div class="tool-card" onclick="openTool('photo')">
+          <span class="tool-emoji">📸</span>
+          <div class="tool-name">Зургаас Текст Үүсгэх</div>
+          <div class="tool-desc">Зураг upload хийж AI-аар пост, тайлбар, хэшлэг автоматаар үүсгэ.</div>
+          <span class="badge badge-social">Vision AI</span>
+        </div>
+        <div class="tool-card" onclick="openTool('rewrite')">
+          <span class="tool-emoji">✏️</span>
+          <div class="tool-name">Текст Сайжруулагч</div>
+          <div class="tool-desc">Бичсэн текстийн алдаа засаж, найруулгыг AI-аар сайжруул.</div>
+          <span class="badge badge-copy">Найруулга</span>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -1586,7 +1635,7 @@
       </div>
       <div style="display:flex; gap:10px;">
         <button class="btn btn-outline" onclick="navigate('tools')">← Tools</button>
-        <button class="copy-btn" onclick="copyOutput()" id="copy-btn" style="display:none">Copy</button>
+        <button class="copy-btn" onclick="copyOutput()" id="copy-btn" style="display:none">📋 Хуулах</button>
       </div>
     </div>
     <div class="page-content">
@@ -1659,7 +1708,7 @@
         <label>Emoji дүрс</label>
         <input type="text" id="agent-emoji" placeholder="🤖" maxlength="2" value="🤖">
         <label>Үндсэн даалгавар (AI-д өгөх заавар)</label>
-        <textarea id="agent-prompt" rows="3" placeholder="жишээ: Манай кофе шопын хувьд өдөр бүр Instagram пост бичиж өг. Брэнд: Mongol Coffee. Хэв маяг: дулаан, найрсаг."></textarea>
+        <textarea id="agent-prompt" rows="3" placeholder="жишээ: Манай кофе шопын хувьд өдөр бүр Instagram пост бичиж өг. Брэнд: Mongol Coffee. Өнгө аяс: дулаан, найрсаг."></textarea>
         <label>Автомат ажиллах давтамж</label>
         <select id="agent-schedule">
           <option value="manual">Гараар ажиллуулах</option>
@@ -1698,7 +1747,7 @@
   <div class="owner-login-overlay" id="owner-login-overlay">
     <div class="owner-login-box">
       <div class="owner-crown">👑</div>
-      <div class="owner-login-title">Owner Panel</div>
+      <div class="owner-login-title">Эзэмшигчийн Самбар</div>
       <div class="owner-login-sub">Зөвхөн эзэмшигчид нэвтрэх боломжтой</div>
       <div style="display:flex;flex-direction:column;gap:12px;">
         <input type="password" id="owner-pwd-input" placeholder="Owner нууц үг" 
@@ -1739,7 +1788,7 @@
     <div class="page-header">
       <div>
         <div class="page-title" style="display:flex;align-items:center;gap:10px;">
-          👑 Owner Panel
+          👑 Эзэмшигчийн самбар
           <span style="font-size:12px;background:rgba(227,21,21,.15);border:1px solid rgba(227,21,21,.3);color:#e31515;padding:3px 10px;border-radius:20px;font-family:'DM Sans',sans-serif;font-weight:500;">ADMIN</span>
         </div>
         <div class="page-desc">Бүх хэрэглэгч болон агентуудын мэдээлэл</div>
@@ -1821,14 +1870,14 @@ let isGenerating = false;
 
 const TOOLS = {
   social: {
-    name: 'Social Media Post Generator',
-    desc: 'Платформ тохирсон постууд үүсгэх',
+    name: 'Нийгмийн Сүлжээний Пост',
+    desc: 'Платформд тохирсон постууд үүсгэх',
     badge: 'badge-social',
     inputs: [
-      { id: 'brand', label: 'Брэнд / Бизнесийн нэр', type: 'input', placeholder: 'жишээ: Mongolian Café' },
-      { id: 'topic', label: 'Пост сэдэв / мессеж', type: 'textarea', placeholder: 'жишээ: Шинэ бүтээгдэхүүн гарлаа — 20% хямдрал!' },
+      { id: 'brand', label: 'Брэнд нэр', type: 'input', placeholder: 'жишээ: Mongolian Café' },
+      { id: 'topic', label: 'Пост сэдэв / мэдэгдэл', type: 'textarea', placeholder: 'жишээ: Шинэ бүтээгдэхүүн гарлаа — 20% хямдрал!' },
       { id: 'platform', label: 'Платформ', type: 'select', options: ['Instagram', 'Facebook', 'Twitter/X', 'LinkedIn', 'TikTok'] },
-      { id: 'tone', label: 'Хэв маяг', type: 'select', options: ['Найрсаг & Хөгжилтэй', 'Мэргэжлийн & Итгэлтэй', 'Урам зориг өгөх', 'Urgency/Яаралтай', 'Боловсролтой'] },
+      { id: 'tone', label: 'Өнгө аяс', type: 'select', options: ['Найрсаг, хөгжилтэй', 'Мэргэжлийн, итгэлтэй', 'Урам зориг өгөх', 'Яаралтай', 'Мэдлэг олгох'] },
     ],
     prompt: (vals) => `You are an expert social media marketer. Write a compelling ${vals.platform} post for "${vals.brand}".
 Topic: ${vals.topic}
@@ -1844,7 +1893,7 @@ Write in Mongolian language. Include:
 Make it engaging and optimized for ${vals.platform} algorithm.`
   },
   ads: {
-    name: 'Ad Copy Generator',
+    name: 'Зар Сурталчилгааны Текст',
     desc: 'Өндөр хөрвөлттэй реклам текст',
     badge: 'badge-copy',
     inputs: [
@@ -1868,7 +1917,7 @@ Write in Mongolian language. Provide:
 Focus on pain points, emotional triggers, and clear value proposition.`
   },
   email: {
-    name: 'Email Campaign Writer',
+    name: 'Имэйл Кампейн Writer',
     desc: 'Нээлт өндөртэй имэйл бичих',
     badge: 'badge-copy',
     inputs: [
@@ -1893,7 +1942,7 @@ Write in Mongolian language. Include:
 Make it personal, scannable, and conversion-focused.`
   },
   seo: {
-    name: 'SEO Content Writer',
+    name: 'SEO Контент Writer',
     desc: 'Ranking-д тусалдаг SEO блог нийтлэл',
     badge: 'badge-seo',
     inputs: [
@@ -1921,7 +1970,7 @@ Write in Mongolian language. Include:
 Make it genuinely helpful and Google E-E-A-T compliant.`
   },
   brand: {
-    name: 'Brand Voice Builder',
+    name: 'Брэндийн Хэл Найруулга Builder',
     desc: 'Брэндийн өнгө аяс тогтоох',
     badge: 'badge-brand',
     inputs: [
@@ -1930,7 +1979,7 @@ Make it genuinely helpful and Google E-E-A-T compliant.`
       { id: 'audience', label: 'Зорилтот үзэгчид', type: 'input', placeholder: 'жишээ: 20-35 настай хотын залуучууд' },
       { id: 'values', label: 'Брэндийн үнэт зүйлс', type: 'input', placeholder: 'жишээ: Өвөрмөц байдал, тогтвортой байдал, эх соёл' },
     ],
-    prompt: (vals) => `You are a top brand strategist. Create a comprehensive Brand Voice Guide for "${vals.brand}".
+    prompt: (vals) => `You are a top brand strategist. Create a comprehensive Брэндийн Хэл Найруулга Guide for "${vals.brand}".
 
 Business: ${vals.business}
 Target Audience: ${vals.audience}
@@ -1947,32 +1996,34 @@ Write in Mongolian language. Include:
 Make it practical and easy to apply across all content.`
   },
   ideas: {
-    name: 'Campaign Strategist',
-    desc: 'Маркетинг кампаний стратеги',
+    name: 'Кампейний Стратеги',
+    desc: 'Маркетингийн кампанийн стратеги',
     badge: 'badge-seo',
     inputs: [
       { id: 'brand', label: 'Брэнд / Бүтээгдэхүүн', type: 'input', placeholder: 'жишээ: Эко дэлгүүр' },
       { id: 'goal', label: 'Кампаний зорилго', type: 'input', placeholder: 'жишээ: Брэнд мэдлэг нэмэх, борлуулалт 30% өсгөх' },
-      { id: 'budget', label: 'Төсвийн хэмжээ', type: 'select', options: ['Бага (< 500K MNT)', 'Дунд (500K-2M MNT)', 'Том (2M-10M MNT)', 'Энтерпрайз (10M+ MNT)'] },
+      { id: 'budget', label: 'Төсвийн хэмжээ', type: 'select', options: ['Бага (< 500К ₮)', 'Дунд (500К–2М ₮)', 'Том (2М–10М ₮)', 'Том бизнес (10М+ ₮)'] },
       { id: 'duration', label: 'Хугацаа', type: 'select', options: ['1 сар', '3 сар', '6 сар', '1 жил'] },
     ],
-    prompt: (vals) => `You are a senior marketing strategist. Create a comprehensive marketing campaign strategy.
-
-Brand/Product: ${vals.brand}
-Campaign Goal: ${vals.goal}
-Budget: ${vals.budget}
-Duration: ${vals.duration}
-
-Write in Mongolian language. Include:
-1. CAMPAIGN CONCEPT & THEME
-2. TARGET AUDIENCE breakdown
-3. CHANNEL STRATEGY (which platforms, why)
-4. CONTENT CALENDAR outline (key milestones)
-5. CREATIVE IDEAS (3-5 specific campaign ideas)
-6. KPIs & SUCCESS METRICS
-7. BUDGET ALLOCATION recommendation
-
-Be specific, creative, and actionable for the Mongolian market.`
+    prompt: (vals) => `You are a senior marketing strategist. Create a comprehensive marketing campaign strategy.\n\nBrand/Product: ${vals.brand}\nCampaign Goal: ${vals.goal}\nBudget: ${vals.budget}\nDuration: ${vals.duration}\n\nWrite in Mongolian language. Include:\n1. CAMPAIGN CONCEPT & THEME\n2. TARGET AUDIENCE breakdown\n3. CHANNEL STRATEGY (which platforms, why)\n4. CONTENT CALENDAR outline (key milestones)\n5. CREATIVE IDEAS (3-5 specific campaign ideas)\n6. KPIs & SUCCESS METRICS\n7. BUDGET ALLOCATION recommendation\n\nBe specific, creative, and actionable for the Mongolian market.`
+  },
+  photo: {
+    name: 'Зургаас Текст Үүсгэх',
+    desc: 'Зураг upload хийж AI-аар пост үүсгэх',
+    badge: 'badge-social',
+    inputs: [],
+    prompt: () => ''
+  },
+  rewrite: {
+    name: 'Текст Сайжруулагч',
+    desc: 'Бичсэн текстийн алдаа засаж, найруулга сайжруул',
+    badge: 'badge-copy',
+    inputs: [
+      { id: 'text', label: 'Сайжруулах текст', type: 'textarea', placeholder: 'Энд текстээ оруулна уу...' },
+      { id: 'goal', label: 'Зорилго', type: 'select', options: ['Алдаа засах & Найруулга сайжруулах', 'Илүү мэргэжлийн болгох', 'Илүү найрсаг болгох', 'Богиносгох', 'Дэлгэрэнгүй болгох', 'Маркетинг контент болгох'] },
+      { id: 'lang', label: 'Гаралтын хэл', type: 'select', options: ['Монгол', 'Англи', 'Монгол + Англи'] },
+    ],
+    prompt: (vals) => `You are an expert Mongolian and English copywriter and editor.\n\nOriginal text:\n"${vals.text}"\n\nTask: ${vals.goal}\nOutput language: ${vals.lang}\n\nProvide:\n1. ЗАСАГДСАН ХУВИЛБАР (improved version)\n2. ӨӨРЧЛӨЛТҮҮД (list of changes made)\n3. НЭМЭЛТ ХУВИЛБАР (alternative version if relevant)\n\nMake the text clear, engaging, and error-free.`
   }
 };
 
@@ -1980,12 +2031,107 @@ Be specific, creative, and actionable for the Mongolian market.`
 function navigate(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById(`page-${page}`).classList.add('active');
+  const pageEl = document.getElementById(`page-${page}`);
+  if (!pageEl) return;
+  pageEl.classList.add('active');
+
+  if (page === 'settings') {
+    const inp = document.getElementById('api-key-input');
+    if (inp) { const saved = safeGet('uc_api_key'); if (saved) inp.value = saved; }
+  }
+
+  // Auto-load data pages when visited
+  if (page === 'news-marketing' && marketingArticles.length === 0) {
+    setTimeout(loadMarketingNews, 100);
+  }
+  if (page === 'news-finance' && financeArticles.length === 0) {
+    setTimeout(loadFinanceNews, 100);
+  }
+  if (page === 'crypto') {
+    setTimeout(loadCryptoData, 100);
+  }
 }
+
+function saveApiKey() {
+  const key = document.getElementById('api-key-input').value.trim();
+  const status = document.getElementById('api-key-status');
+  if (!key) {
+    status.style.display = 'block';
+    status.style.background = 'rgba(224,92,92,.15)';
+    status.style.color = '#e05c5c';
+    status.textContent = '⚠ API key оруулна уу';
+    return;
+  }
+  if (!key.startsWith('sk-ant-')) {
+    status.style.display = 'block';
+    status.style.background = 'rgba(224,92,92,.15)';
+    status.style.color = '#e05c5c';
+    status.textContent = '⚠ API key sk-ant- гэж эхлэх ёстой';
+    return;
+  }
+  safeSet('uc_api_key', key);
+  status.style.display = 'block';
+  status.style.background = 'rgba(92,224,130,.12)';
+  status.style.color = '#5ce082';
+  status.textContent = '✓ API key хадгалагдлаа! AI хэрэгслүүд ажиллана.';
+  showToast('✓ API key хадгалагдлаа!');
+}
+
+async function testApiKey() {
+  const key = document.getElementById('api-key-input').value.trim() || safeGet('uc_api_key');
+  const status = document.getElementById('api-key-status');
+  if (!key) {
+    status.style.display = 'block';
+    status.style.background = 'rgba(224,92,92,.15)';
+    status.style.color = '#e05c5c';
+    status.textContent = '⚠ Эхлээд API key оруулна уу';
+    return;
+  }
+  status.style.display = 'block';
+  status.style.background = 'rgba(227,21,21,.1)';
+  status.style.color = 'var(--gold)';
+  status.textContent = '⏳ Шалгаж байна...';
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 10, messages: [{ role: 'user', content: 'hi' }] })
+    });
+    const d = await r.json();
+    if (d.content) {
+      status.style.background = 'rgba(92,224,130,.12)';
+      status.style.color = '#5ce082';
+      status.textContent = '✓ API key зөв байна — AI ажиллана!';
+      safeSet('uc_api_key', key);
+    } else {
+      status.style.background = 'rgba(224,92,92,.15)';
+      status.style.color = '#e05c5c';
+      status.textContent = '✗ ' + (d.error?.message || 'API key буруу байна');
+    }
+  } catch(e) {
+    status.style.background = 'rgba(224,92,92,.15)';
+    status.style.color = '#e05c5c';
+    status.textContent = '✗ Холболтын алдаа: ' + e.message;
+  }
+}
+
 
 function openTool(toolId) {
   currentTool = toolId;
+
+  // Special handler for photo tool
+  if (toolId === 'photo') {
+    openPhotoTool();
+    return;
+  }
+
   const tool = TOOLS[toolId];
+  if (!tool) return;
 
   // Update workspace
   document.getElementById('workspace-title').textContent = tool.name;
@@ -2030,15 +2176,186 @@ function openTool(toolId) {
   const btn = document.createElement('button');
   btn.className = 'btn btn-gold';
   btn.id = 'gen-btn';
-  btn.innerHTML = '✦ Generate with AI';
+  btn.innerHTML = '✦ AI-аар Үүсгэх';
   btn.onclick = generate;
   panel.appendChild(btn);
 
   // Reset output
-  document.getElementById('output-area').innerHTML = '<div class="output-placeholder" id="output-placeholder"><div style="font-size:24px; margin-bottom:8px;">✦</div><div>Generate хийхэд AI тань энд хариулах болно</div></div>';
+  document.getElementById('output-area').innerHTML = '<div class="output-placeholder" id="output-placeholder"><div style="font-size:24px; margin-bottom:8px;">✦</div><div>AI-аар үүсгэхэд хариулт энд харагдана</div></div>';
   document.getElementById('copy-btn').style.display = 'none';
 
   navigate('workspace');
+}
+
+// ===== PHOTO TOOL =====
+let photoBase64 = null;
+
+function openPhotoTool() {
+  document.getElementById('workspace-title').textContent = 'Зургаас Текст Үүсгэх';
+  document.getElementById('workspace-desc').textContent = 'Зураг upload хийж AI-аар пост үүсгэ';
+  document.getElementById('active-tool-bar').style.display = 'flex';
+  document.getElementById('active-tool-name').textContent = '✦ Зургаас Текст Үүсгэх';
+
+  const panel = document.getElementById('input-panel');
+  panel.innerHTML = `
+    <div>
+      <label>ЗУРАГ UPLOAD</label>
+      <div id="photo-drop-zone" onclick="document.getElementById('photo-file-inp').click()" style="
+        border: 2px dashed var(--border); border-radius: 10px; padding: 28px;
+        text-align: center; cursor: pointer; background: var(--surface2); margin-bottom: 4px;
+        transition: border-color .2s;">
+        <div style="font-size:32px; margin-bottom:8px;">📷</div>
+        <div style="font-size:13px; color:var(--muted);">Зураг сонгохын тулд дарна уу</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">JPG, PNG, WebP • Дээд тал 5MB</div>
+      </div>
+      <input type="file" id="photo-file-inp" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
+      <div id="photo-preview" style="display:none; margin-top:10px;">
+        <img id="photo-img" style="max-width:100%; max-height:180px; border-radius:8px; border:1px solid var(--border);">
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;" id="photo-filename"></div>
+      </div>
+    </div>
+    <div>
+      <label>КОНТЕНТИЙН ТӨРӨЛ</label>
+      <select id="inp-photo-type">
+        <option>Instagram пост + хэшлэгүүд</option>
+        <option>Facebook пост</option>
+        <option>Бүтээгдэхүүний тайлбар</option>
+        <option>Зарын текст</option>
+        <option>Зургийн дэлгэрэнгүй тайлбар</option>
+      </select>
+    </div>
+    <div>
+      <label>НЭМЭЛТэ ЗААВАР (заавал биш)</label>
+      <input type="text" id="inp-photo-note" placeholder="жишээ: Манай кафений шинэ цэс, монголоор бич">
+    </div>
+    <button class="btn btn-gold" id="gen-btn" onclick="generateFromPhoto()">📸 Зургаас Текст Үүсгэх</button>
+  `;
+
+  document.getElementById('output-area').innerHTML = '<div class="output-placeholder" id="output-placeholder"><div style="font-size:24px; margin-bottom:8px;">📸</div><div>Зураг оруулаад Generate дарна уу</div></div>';
+  document.getElementById('copy-btn').style.display = 'none';
+
+  // Hover effect
+  const dz = document.getElementById('photo-drop-zone');
+  if (dz) {
+    dz.addEventListener('mouseover', () => dz.style.borderColor = 'var(--gold)');
+    dz.addEventListener('mouseout', () => dz.style.borderColor = 'var(--border)');
+  }
+
+  navigate('workspace');
+}
+
+function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('⚠ Зургийн хэмжээ 5MB-аас бага байх ёстой'); return; }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    photoBase64 = e.target.result.split(',')[1];
+    const mediaType = file.type || 'image/jpeg';
+    document.getElementById('photo-img').src = e.target.result;
+    document.getElementById('photo-filename').textContent = file.name + ' (' + (file.size/1024).toFixed(0) + ' KB)';
+    document.getElementById('photo-preview').style.display = 'block';
+    document.getElementById('photo-drop-zone').style.borderColor = 'var(--gold)';
+    document.getElementById('photo-drop-zone').querySelector('div').textContent = '✓ Зураг бэлэн байна';
+    document.getElementById('gen-btn')._mediaType = mediaType;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function generateFromPhoto() {
+  if (!photoBase64) { showToast('⚠ Эхлээд зураг upload хийнэ үү'); return; }
+  if (isGenerating) return;
+
+  const contentType = document.getElementById('inp-photo-type')?.value || 'Instagram пост + хэшлэгүүд';
+  const note = document.getElementById('inp-photo-note')?.value || '';
+  const mediaType = document.getElementById('gen-btn')._mediaType || 'image/jpeg';
+
+  const apiKey = safeGet('uc_api_key');
+  if (!apiKey) { showToast('⚠ Эхлээд API key тохируулна уу'); navigate('settings'); return; }
+
+  isGenerating = true;
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Зураг шинжилж байна...';
+
+  const outputArea = document.getElementById('output-area');
+  outputArea.innerHTML = '<span class="streaming-cursor"></span>';
+
+  const prompt = `Энэ зургийг харж Монгол хэлээр ${contentType} бич.${note ? ' Нэмэлт заавар: ' + note : ''}
+
+Заавал оруулах:
+1. Гарчиг эсвэл эхний мөр
+2. Үндсэн текст (engaging, natural Mongolian)
+3. Хэрэгтэй бол хэшлэгүүд (#)
+4. CTA (дуудлага)
+
+Монгол хэлээр бичнэ үү.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        stream: true,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: mediaType, data: photoBase64 } },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    });
+
+    let fullText = '';
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const lines = decoder.decode(value).split('\n');
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try {
+            const p = JSON.parse(line.slice(6));
+            if (p.type === 'content_block_delta' && p.delta?.text) {
+              fullText += p.delta.text;
+              outputArea.innerHTML = escapeHtml(fullText) + '<span class="streaming-cursor"></span>';
+              outputArea.scrollTop = outputArea.scrollHeight;
+            }
+          } catch(e) {}
+        }
+      }
+    }
+
+    outputArea.innerHTML = escapeHtml(fullText);
+    outputArea.dataset.content = fullText;
+    document.getElementById('copy-btn').style.display = 'inline-flex';
+    generationCount++;
+    document.getElementById('stat-generated').textContent = generationCount;
+    saveHistory(currentTool, fullText);
+  } catch(e) {
+    let errMsg = e.message || 'Тодорхойгүй алдаа';
+    if (e.name === 'AbortError') errMsg = 'Хариулт хэтэрхий удаав (60с). Дахин оролдоно уу.';
+    if (errMsg.includes('401') || errMsg.includes('authentication_error')) {
+      errMsg = '🔑 API key буруу байна. ⚙️ API Тохиргоо дарж засна уу.';
+      setTimeout(() => navigate('settings'), 2000);
+    }
+    outputArea.innerHTML = '<span style="color:var(--red)">⚠ Алдаа: ' + escapeHtml(errMsg) + '</span>';
+    showToast('⚠ ' + errMsg.substring(0, 60));
+  } finally {
+    isGenerating = false;
+    btn.disabled = false;
+    btn.innerHTML = '📸 Зургаас Текст Үүсгэх';
+  }
 }
 
 function clearInputs() {
@@ -2065,7 +2382,7 @@ async function generate() {
   isGenerating = true;
   const btn = document.getElementById('gen-btn');
   btn.disabled = true;
-  btn.innerHTML = '<div class="spinner"></div> Generating...';
+  btn.innerHTML = '<div class="spinner"></div> Үүсгэж байна...';
 
   const outputArea = document.getElementById('output-area');
   outputArea.innerHTML = '<span class="streaming-cursor"></span>';
@@ -2075,16 +2392,26 @@ async function generate() {
 
   try {
     const prompt = tool.prompt(vals);
+    const controller2 = new AbortController();
+    const timeoutId = setTimeout(() => controller2.abort(), 60000);
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      signal: controller2.signal,
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
         stream: true,
         messages: [{ role: 'user', content: prompt }]
       })
     });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData?.error?.message || 'HTTP ' + response.status);
+    }
 
     let fullText = '';
     const reader = response.body.getReader();
@@ -2129,7 +2456,7 @@ async function generate() {
   } finally {
     isGenerating = false;
     btn.disabled = false;
-    btn.innerHTML = '✦ Generate with AI';
+    btn.innerHTML = '✦ AI-аар Үүсгэх';
   }
 }
 
@@ -2332,7 +2659,7 @@ window.openTool = function(toolId) {
   const btn = document.createElement('button');
   btn.className = 'btn btn-gold';
   btn.id = 'gen-btn';
-  btn.innerHTML = '✦ Generate with AI';
+  btn.innerHTML = '✦ AI-аар Үүсгэх';
   btn.onclick = generate;
   panel.appendChild(btn);
   document.getElementById('output-area').innerHTML = '<div class="output-placeholder" id="output-placeholder"><div style="font-size:24px; margin-bottom:8px;">✦</div><div>Generate хийхэд AI тань энд хариулах болно</div></div>';
@@ -2467,31 +2794,31 @@ async function doLogin() {
     if (currentLoginMethod === 'phone') {
       const phone = sanitize(document.getElementById('login-phone').value).replace(/\s/g,'');
       const pwd   = document.getElementById('login-pwd-phone').value;
-      if (!phone || !pwd) { errMsg = '⚠ Утасны дугаар болон нууц үгийг бөглөнө үү'; }
+      if (!phone || !pwd) { errMsg = '⚠ Утасны дугаар болон нууц үгийг оруулна уу'; }
       else {
         rlId = 'phone:'+phone;
         if (checkRateLimit(rlId)) {
           const hash = await sha256(pwd + phone);
           user = users['phone:'+phone];
-          if (!user || user.pwd !== hash) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу'; }
+          if (!user || user.pwd !== hash) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'email') {
       const email = sanitize(document.getElementById('login-email').value).toLowerCase();
       const pwd   = document.getElementById('login-pwd-email').value;
-      if (!email || !pwd) { errMsg = '⚠ Имэйл болон нууц үгийг бөглөнө үү'; }
+      if (!email || !pwd) { errMsg = '⚠ Имэйл болон нууц үгийг оруулна уу'; }
       else {
         rlId = 'email:'+email;
         if (checkRateLimit(rlId)) {
           const hash = await sha256(pwd + email);
           user = users['email:'+email];
-          if (!user || user.pwd !== hash) { errMsg = '⚠ Имэйл эсвэл нууц үг буруу'; }
+          if (!user || user.pwd !== hash) { errMsg = '⚠ Имэйл хаяг эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'facebook') {
       const fb  = sanitize(document.getElementById('login-fb').value).replace('@','').toLowerCase();
       const pwd = document.getElementById('login-pwd-fb').value;
-      if (!fb || !pwd) { errMsg = '⚠ Facebook хаяг болон нууц үгийг бөглөнө үү'; }
+      if (!fb || !pwd) { errMsg = '⚠ Facebook хаяг болон нууц үгийг оруулна уу'; }
       else {
         rlId = 'fb:'+fb;
         if (checkRateLimit(rlId)) {
@@ -2503,7 +2830,7 @@ async function doLogin() {
               if (u.pwd === hash) { user = u; break; }
             }
           }
-          if (!user) { errMsg = '⚠ Facebook хаяг эсвэл нууц үг буруу'; }
+          if (!user) { errMsg = '⚠ Facebook хаяг эсвэл нууц үг буруу байна'; }
         }
       }
     }
@@ -2542,11 +2869,11 @@ async function doRegister() {
 
     if (!name)                   { showToast('⚠ Нэрээ оруулна уу'); }
     else if (!phone && !email)   { showToast('⚠ Утасны дугаар эсвэл имэйл оруулна уу'); }
-    else if (!pwd || pwd.length < 6) { showToast('⚠ Нууц үг 6+ тэмдэгт байх ёстой'); }
+    else if (!pwd || pwd.length < 6) { showToast('⚠ Нууц үг хамгийн багадаа 6 тэмдэгт байх ёстой'); }
     else {
       const users = getUsers();
-      if (phone && users['phone:'+phone]) { showToast('⚠ Утасны дугаар бүртгэлтэй байна'); }
-      else if (email && users['email:'+email]) { showToast('⚠ Имэйл бүртгэлтэй байна'); }
+      if (phone && users['phone:'+phone]) { showToast('⚠ Энэ утасны дугаар бүртгэлтэй байна'); }
+      else if (email && users['email:'+email]) { showToast('⚠ Энэ имэйл хаяг бүртгэлтэй байна'); }
       else {
         const salt = phone || email;
         const hash = await sha256(pwd + salt);
@@ -2558,7 +2885,7 @@ async function doRegister() {
         delete session.pwd;
         sessSet(SESSION_KEY, JSON.stringify(session));
         success = true;
-        showToast('✓ Бүртгэл амжилттай!');
+        showToast('✓ Бүртгэл амжилттай үүслээ!');
         onLoggedIn(session);
       }
     }
@@ -2589,7 +2916,7 @@ function doLogout() {
   window._currentUser = null;
   document.getElementById('user-profile-block').style.display = 'none';
   document.getElementById('auth-overlay').style.display = 'flex';
-  document.querySelector('#page-dashboard .page-title').textContent = 'Welcome to UC Agency';
+  document.querySelector('#page-dashboard .page-title').textContent = 'Улаан Creative-д тавтай морилно уу';
   showToast('✓ Гарлаа');
 }
 
@@ -2740,7 +3067,7 @@ async function runAgent(id, auto = false) {
 
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': safeGet('uc_api_key') || '', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -2894,7 +3221,7 @@ async function checkOwnerPwd() {
     document.getElementById('owner-login-overlay').classList.remove('open');
     document.getElementById('owner-pwd-input').value = '';
     showOwnerPanel();
-    showToast('👑 Owner Panel нээлтэй');
+    showToast('👑 Эзэмшигчийн самбар нээлтэй');
   } else {
     showToast(`⚠ Нууц үг буруу (${5-ownerRL.count} оролдлого үлдсэн)`);
     document.getElementById('owner-pwd-input').value = '';
@@ -3104,16 +3431,29 @@ let chatOpen = false;
 let chatHistory = [];
 let chatBusy = false;
 
-const CHAT_SYSTEM = `You are UC AI Assistant — a helpful, friendly AI assistant built into the Ulaan Creative AI Marketing Studio app.
-You help users with:
-- Marketing advice, content ideas, copywriting tips
-- Explaining app features (Social Media tool, Ad Copy, Email, SEO, Brand Voice, Campaign Ideas, AI Agents)
-- General questions about digital marketing
-- Supporting Mongolian businesses
+const CHAT_SYSTEM = `Чи UC туслагч (UC Assistant) — Улаан Creative AI Маркетинг Студиогийн дотоод AI туслагч юм.
 
-Keep responses concise and friendly. Use emojis occasionally. 
-If the user asks to create content, guide them to use the appropriate tool in the app.
-Always respond in the same language the user writes in (Mongolian or English).`;
+Чиний үүрэг:
+- Хэрэглэгчийн маркетингийн асуултанд хариулах
+- Апп-ийн хэрэгслүүдийг ашиглах заавар өгөх
+- Контент бичих, зар сурталчилгаа, брэнд стратеги зөвлөгөө өгөх
+- Монгол болон дэлхийн маркетингийн мэдлэг хуваалцах
+
+Хэлбэр:
+- Монгол хэлээр хариулна
+- Богино, ойлгомжтой, практик хариулт өгнө
+- Эелдэг, найрсаг байна
+- Хэрэгтэй бол жишээ оруулна
+- Нарийн техник асуудалд хөгжүүлэгчид хандахыг зөвлөнө
+
+Апп-ийн мэдлэг:
+- Нийгмийн сүлжээний пост үүсгэх, зар текст, имэйл кампейн, SEO блог, брэнд хэл найруулга, кампейний стратеги хэрэгслүүд бий
+- Зургаас текст үүсгэх (Vision AI) хэрэгсэл бий
+- Текст сайжруулагч хэрэгсэл бий
+- Маркетинг, санхүүгийн мэдээ болон крипто/хувьцааны мэдэгдэл харах боломжтой
+- API key тохируулахад: ⚙️ API Тохиргоо цэсийг ашиглана`;
+
+function goToSettings() { toggleChat(); setTimeout(() => navigate("settings"), 100); }
 
 function toggleChat() {
   chatOpen = !chatOpen;
@@ -3122,27 +3462,58 @@ function toggleChat() {
   if (chatOpen) {
     if (chatHistory.length === 0) {
       const user = window._currentUser;
-      const greeting = user
-        ? `Сайн уу, **${user.name.split(' ')[0]}**! 👋 Би UC AI Туслагч. Маркетингийн асуултанд хариулж, апп ашиглахад туслах болно. Юу хэрэгтэй байна вэ?`
-        : 'Сайн уу! 👋 Би UC AI Туслагч. Маркетингийн асуулт, апп ашиглалтад туслана. Юу хэрэгтэй байна вэ?';
-      appendBotMsg(greeting);
+      const apiKey = safeGet('uc_api_key');
+      const name = user ? user.name.split(' ')[0] : '';
+      
+      if (!apiKey) {
+        // API key байхгүй бол тохируулах заавар харуулах
+        const msg = (name ? `Сайн уу, <b>${name}</b>! 👋 ` : 'Сайн уу! 👋 ')
+          + 'Би UC AI Туслагч.\n\n'
+          + '⚙️ AI ажиллуулахад <b>API key</b> шаардлагатай.\n'
+          + '<a href="#" onclick="goToSettings();" style="color:var(--gold);font-weight:600;">→ API Тохиргоо руу очих</a>\n\n'
+          + '<span style="color:var(--muted);font-size:11px;">console.anthropic.com/keys хаягаас үнэгүй авна уу</span>';
+        appendBotMsg(msg);
+      } else {
+        const greeting = name
+          ? `Сайн уу, <b>${name}</b>! 👋 Би UC AI Туслагч. Маркетингийн асуулт болон апп ашиглалтад туслана. Юу хэрэгтэй байна вэ?`
+          : 'Сайн уу! 👋 Би UC AI Туслагч. Маркетингийн асуулт болон апп ашиглалтад туслана. Юу хэрэгтэй байна вэ?';
+        appendBotMsg(greeting);
+      }
     }
-    setTimeout(() => document.getElementById('chat-input').focus(), 300);
+    setTimeout(() => {
+      const inp = document.getElementById('chat-input');
+      if (inp) inp.focus();
+    }, 300);
   }
 }
 
 function appendBotMsg(text) {
   const msgs = document.getElementById('chat-messages');
-  const now = new Date().toLocaleTimeString('mn-MN',{hour:'2-digit',minute:'2-digit'});
-  const div = document.createElement('div');
-  div.className = 'msg bot';
-  div.innerHTML = `
+  const initPlaceholder = document.getElementById('chat-init-placeholder');
+  if (initPlaceholder) initPlaceholder.remove();
+
+  const wrap = document.createElement('div');
+  wrap.className = 'msg bot';
+
+  const now = new Date().toLocaleTimeString('mn-MN', { hour: '2-digit', minute: '2-digit' });
+
+  // HTML-г шууд render хийх — зөвшөөрөгдсөн тагуудыг бүгдийг дамжуулна
+  // Энгийн текстийн < > тэмдгийг зөвхөн тодорхой дүрмээр хамгаална
+  const htmlText = text
+    // & тэмдгийг encode хий (давхар encode болохоос сэргийлэх)
+    .replace(/&(?![a-zA-Z0-9#]{1,8};)/g, '&amp;')
+    // **bold** → <b>bold</b>
+    .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+    // мөр эхлэлийн шинэ мөрийг <br> болгох
+    .replace(/\n/g, '<br>');
+
+  wrap.innerHTML = `
     <div class="msg-avatar">🤖</div>
     <div>
-      <div class="msg-bubble">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>
+      <div class="msg-bubble">${htmlText}</div>
       <div class="msg-time">${now}</div>
     </div>`;
-  msgs.appendChild(div);
+  msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
@@ -3182,39 +3553,76 @@ async function sendChat() {
   const text = input.value.trim();
   if (!text) return;
 
+  // API key шалгах
+  const apiKey = safeGet('uc_api_key');
+  if (!apiKey) {
+    input.value = '';
+    appendUserMsg(text);
+    removeTyping();
+    appendBotMsg('⚙️ AI ажиллуулахад API key шаардлагатай.\n\nЗүүн цэснээс <b>⚙️ API Тохиргоо</b> дарж key оруулна уу.\n<a href="#" onclick="goToSettings();" style="color:var(--gold);">→ API Тохиргоо нээх</a>');
+    return;
+  }
+
   input.value = '';
   input.style.height = 'auto';
-  document.getElementById('chat-quick').style.display = 'none';
+  const quickEl = document.getElementById('chat-quick');
+  if (quickEl) quickEl.style.display = 'none';
   appendUserMsg(text);
   chatHistory.push({ role: 'user', content: text });
 
   chatBusy = true;
-  document.getElementById('chat-send-btn').disabled = true;
+  const sendBtn = document.getElementById('chat-send-btn');
+  if (sendBtn) sendBtn.disabled = true;
   showTyping();
+
+  // 30 секундийн timeout
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
 
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 600,
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 500,
         system: CHAT_SYSTEM,
-        messages: chatHistory.slice(-10)
+        messages: chatHistory.slice(-8)
       })
     });
+    clearTimeout(timeout);
+
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({}));
+      const errMsg = errData?.error?.message || ('HTTP ' + resp.status);
+      throw new Error(errMsg);
+    }
+
     const data = await resp.json();
-    const reply = data.content?.[0]?.text || 'Уучлаарай, алдаа гарлаа.';
+    const reply = data.content?.[0]?.text || 'Уучлаарай, хоосон хариулт ирлээ.';
     chatHistory.push({ role: 'assistant', content: reply });
     removeTyping();
     appendBotMsg(reply);
   } catch(e) {
+    clearTimeout(timeout);
     removeTyping();
-    appendBotMsg('⚠ Холболтын алдаа гарлаа. Дахин оролдоно уу.');
+    if (e.name === 'AbortError') {
+      appendBotMsg('⏱ Хариулт хэтэрхий удаав (30с). Дахин оролдоно уу.');
+    } else if (e.message.includes('401') || e.message.includes('authentication')) {
+      appendBotMsg('🔑 API key буруу байна.\n<a href="#" onclick="goToSettings();" style="color:var(--gold);">→ API Тохиргоо засах</a>');
+    } else {
+      appendBotMsg('⚠ Алдаа: ' + e.message);
+    }
+  } finally {
+    chatBusy = false;
+    if (sendBtn) sendBtn.disabled = false;
   }
-
-  chatBusy = false;
-  document.getElementById('chat-send-btn').disabled = false;
 }
 
 function sendQuick(text) {
@@ -3290,7 +3698,741 @@ function sendQuick(text) {
   document.addEventListener('touchend', onUp);
 })();
 
+
+
+// ================================================================
+// ===== NEWS & MARKET MODULE =====
+// ================================================================
+
+// RSS feeds through rss2json (free CORS proxy)
+const RSS2JSON = 'https://api.rss2json.com/v1/api.json';
+
+const MARKETING_FEEDS = [
+  { url: 'https://feeds.feedburner.com/Marketingland', name: 'Marketing Land' },
+  { url: 'https://contentmarketinginstitute.com/feed/', name: 'CMI' },
+  { url: 'https://www.marketingprofs.com/rss/all_articles.asp', name: 'MarketingProfs' },
+  { url: 'https://www.adweek.com/feed/', name: 'Adweek' },
+  { url: 'https://socialmediaexaminer.com/feed/', name: 'SM Examiner' },
+  { url: 'https://www.searchenginejournal.com/feed', name: 'SEJ' },
+];
+
+const FINANCE_FEEDS = [
+  { url: 'https://feeds.bbci.co.uk/news/business/rss.xml', name: 'BBC Business' },
+  { url: 'https://rss.cnn.com/rss/money_latest.rss', name: 'CNN Money' },
+  { url: 'https://feeds.reuters.com/reuters/businessNews', name: 'Reuters Business' },
+  { url: 'https://feeds.cnbc.com/cnbc/ID/100003114/device/rss/rss.html', name: 'CNBC Markets' },
+];
+
+// Storage for fetched articles
+let marketingArticles = [];
+let financeArticles = [];
+let marketingAutoInterval = null;
+let currentMarketingFilter = 'all';
+let currentFinanceFilter = 'all';
+
+// ---- UTILITY ----
+function relativeTime(dateStr) {
+  try {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 60) return m + ' минутын өмнө';
+    const h = Math.floor(m / 60);
+    if (h < 24) return h + ' цагийн өмнө';
+    return Math.floor(h / 24) + ' өдрийн өмнө';
+  } catch(e) { return ''; }
+}
+
+function stripHtml(html) {
+  return html ? html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 400) : '';
+}
+
+function escapeNewsHtml(str) {
+  return str ? str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : '';
+}
+
+// ---- FETCH RSS ----
+async function fetchRSS(feedUrl) {
+  const url = RSS2JSON + '?rss_url=' + encodeURIComponent(feedUrl) + '&count=8';
+  try {
+    const r = await fetch(url);
+    const data = await r.json();
+    if (data.status === 'ok') return data.items || [];
+  } catch(e) {}
+  return [];
+}
+
+// ================================================================
+// ===== MARKETING NEWS =====
+// ================================================================
+async function loadMarketingNews() {
+  const btn = document.getElementById('marketing-refresh-btn');
+  const container = document.getElementById('marketing-news-container');
+  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Ачааллаж...'; }
+  container.innerHTML = '<div class="news-loading"><div class="loading-icon">📡</div><div style="font-size:14px;margin-top:8px;">Мэдээ татаж байна...</div></div>';
+
+  let allItems = [];
+  // Fetch from multiple feeds in parallel
+  const results = await Promise.allSettled(
+    MARKETING_FEEDS.map(f => fetchRSS(f.url).then(items => items.map(i => ({ ...i, sourceName: f.name }))))
+  );
+  results.forEach(r => { if (r.status === 'fulfilled') allItems = allItems.concat(r.value); });
+
+  // Sort by date
+  allItems.sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0));
+  // Remove duplicates
+  const seen = new Set();
+  allItems = allItems.filter(item => {
+    if (seen.has(item.title)) return false;
+    seen.add(item.title);
+    return true;
+  });
+
+  marketingArticles = allItems.slice(0, 30);
+  renderMarketingNews(marketingArticles);
+  if (btn) { btn.disabled = false; btn.innerHTML = '🔄 Шинэчлэх'; }
+}
+
+function filterMarketingNews(type, el) {
+  document.querySelectorAll('#page-news-marketing .news-filter-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  currentMarketingFilter = type;
+
+  if (type === 'all') {
+    renderMarketingNews(marketingArticles);
+    return;
+  }
+  const keywords = {
+    social: ['social', 'instagram', 'facebook', 'tiktok', 'twitter', 'linkedin'],
+    seo: ['seo', 'search', 'google', 'keyword', 'ranking'],
+    ai: ['ai ', 'artificial intelligence', 'chatgpt', 'gpt', 'machine learning', 'automation'],
+    ads: ['ads', 'advertising', 'ppc', 'paid', 'campaign', 'cpc', 'roas'],
+  };
+  const kws = keywords[type] || [];
+  const filtered = marketingArticles.filter(a => {
+    const text = (a.title + ' ' + (a.description || '')).toLowerCase();
+    return kws.some(k => text.includes(k));
+  });
+  renderMarketingNews(filtered);
+}
+
+function renderMarketingNews(articles) {
+  const container = document.getElementById('marketing-news-container');
+  if (!articles || articles.length === 0) {
+    container.innerHTML = '<div class="news-empty"><div class="news-empty-icon">📭</div><div>Мэдээ олдсонгүй. "Шинэчлэх" дарна уу.</div></div>';
+    return;
+  }
+
+  container.innerHTML = '<div class="news-grid">' + articles.map((item, idx) => {
+    const desc = stripHtml(item.description || item.content || '');
+    const time = relativeTime(item.pubDate);
+    return `<div class="news-card" id="mn-card-${idx}">
+      <div class="news-source">📣 ${escapeNewsHtml(item.sourceName || 'Marketing News')}</div>
+      <div class="news-title-en" id="mn-en-${idx}">${escapeNewsHtml(item.title)}</div>
+      <div id="mn-translated-${idx}"></div>
+      <div class="news-meta">
+        <span class="news-time">${time}</span>
+        ${item.link ? '<a href="' + escapeNewsHtml(item.link) + '" target="_blank" class="news-tag" style="text-decoration:none;">Эх үүсвэр →</a>' : ''}
+        <button class="news-translate-btn" id="mn-btn-${idx}" onclick="translateMarketingArticle(${idx})">✦ Орчуулах</button>
+      </div>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+async function translateMarketingArticle(idx) {
+  const btn = document.getElementById('mn-btn-' + idx);
+  const card = document.getElementById('mn-card-' + idx);
+  const translatedDiv = document.getElementById('mn-translated-' + idx);
+  const enTitle = document.getElementById('mn-en-' + idx);
+  const item = marketingArticles[idx];
+  if (!item) return;
+
+  const apiKey = safeGet('uc_api_key');
+  if (!apiKey) { showToast('⚠ Эхлээд API key тохируулна уу'); navigate('settings'); return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Орчуулж байна...';
+  translatedDiv.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px 0;">AI орчуулж байна...</div>';
+
+  const text = item.title + '\n\n' + stripHtml(item.description || item.content || '');
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 600,
+        messages: [{ role: 'user', content: `Доорх маркетингийн мэдээний нийтлэлийг монгол хэлрүү орчуул. Зөв найруулга, зөв цэглэлттэй, ойлгомжтой монгол хэлээр бич. Гарчгийг Bold болгоод тайлбарыг дор нь бич.
+
+Нийтлэл:
+${text}
+
+Формат:
+**[Монгол гарчиг]**
+
+[Монгол тайлбар — 3-4 өгүүлбэр]` }]
+      })
+    });
+    const d = await r.json();
+    const translated = d.content?.[0]?.text || '';
+    
+    // Format with bold title
+    const lines = translated.trim().split('\n');
+    let titleLine = lines[0].replace(/\*\*/g, '').trim();
+    const bodyLines = lines.slice(1).filter(l => l.trim()).join(' ').trim();
+    
+    translatedDiv.innerHTML = `<div class="news-title-mn">${escapeNewsHtml(titleLine)}</div><div class="news-body-mn">${escapeNewsHtml(bodyLines)}</div>`;
+    card.classList.add('translated');
+    btn.textContent = '✓ Орчуулсан';
+    btn.classList.add('done');
+    btn.disabled = false;
+  } catch(e) {
+    translatedDiv.innerHTML = '<span style="color:var(--red);font-size:12px;">Алдаа: ' + e.message + '</span>';
+    btn.textContent = '✦ Дахин орчуулах';
+    btn.disabled = false;
+  }
+}
+
+async function translateAllMarketing() {
+  const btn = document.getElementById('translate-all-marketing');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Орчуулж байна...';
+  const items = document.querySelectorAll('[id^="mn-btn-"]');
+  for (let i = 0; i < Math.min(items.length, 5); i++) {
+    const btnEl = items[i];
+    if (!btnEl.classList.contains('done')) {
+      const idx = parseInt(btnEl.id.replace('mn-btn-', ''));
+      await translateMarketingArticle(idx);
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+  btn.disabled = false;
+  btn.innerHTML = '✦ Бүгдийг Орчуулах';
+}
+
+function toggleMarketingAuto() {
+  const toggle = document.getElementById('marketing-auto-toggle');
+  toggle.classList.toggle('on');
+  if (toggle.classList.contains('on')) {
+    loadMarketingNews();
+    marketingAutoInterval = setInterval(loadMarketingNews, 30 * 60 * 1000); // 30 min
+    showToast('✓ Авто шинэчлэх идэвхжлээ (30 мин)');
+  } else {
+    clearInterval(marketingAutoInterval);
+    showToast('Авто шинэчлэх зогслоо');
+  }
+}
+
+// ================================================================
+// ===== FINANCE NEWS =====
+// ================================================================
+async function loadFinanceNews() {
+  const btn = document.getElementById('finance-refresh-btn');
+  const container = document.getElementById('finance-news-container');
+  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Ачааллаж...'; }
+  container.innerHTML = '<div class="news-loading"><div class="loading-icon">💹</div><div style="font-size:14px;margin-top:8px;">Санхүүгийн мэдээ татаж байна...</div></div>';
+
+  let allItems = [];
+  const results = await Promise.allSettled(
+    FINANCE_FEEDS.map(f => fetchRSS(f.url).then(items => items.map(i => ({ ...i, sourceName: f.name }))))
+  );
+  results.forEach(r => { if (r.status === 'fulfilled') allItems = allItems.concat(r.value); });
+
+  allItems.sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0));
+  const seen = new Set();
+  allItems = allItems.filter(item => { if (seen.has(item.title)) return false; seen.add(item.title); return true; });
+
+  financeArticles = allItems.slice(0, 25);
+  renderFinanceNews(financeArticles);
+  if (btn) { btn.disabled = false; btn.innerHTML = '🔄 Шинэчлэх'; }
+}
+
+function filterFinanceNews(type, el) {
+  document.querySelectorAll('#page-news-finance .news-filter-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  currentFinanceFilter = type;
+  if (type === 'all') { renderFinanceNews(financeArticles); return; }
+  const keywords = {
+    markets: ['market', 'stock', 'shares', 'nasdaq', 'dow', 's&p', 'index', 'equit'],
+    economy: ['economy', 'gdp', 'inflation', 'fed', 'interest rate', 'recession', 'growth'],
+    business: ['company', 'earnings', 'revenue', 'profit', 'ceo', 'merger', 'acquisition'],
+    crypto: ['bitcoin', 'crypto', 'ethereum', 'blockchain', 'digital currency', 'btc', 'eth'],
+  };
+  const kws = keywords[type] || [];
+  const filtered = financeArticles.filter(a => {
+    const text = (a.title + ' ' + (a.description || '')).toLowerCase();
+    return kws.some(k => text.includes(k));
+  });
+  renderFinanceNews(filtered);
+}
+
+function renderFinanceNews(articles) {
+  const container = document.getElementById('finance-news-container');
+  if (!articles || articles.length === 0) {
+    container.innerHTML = '<div class="news-empty"><div class="news-empty-icon">📭</div><div>Мэдээ олдсонгүй. "Шинэчлэх" дарна уу.</div></div>';
+    return;
+  }
+  container.innerHTML = articles.map((item, idx) => {
+    const desc = stripHtml(item.description || item.content || '');
+    const time = relativeTime(item.pubDate);
+    return `<div class="finance-article-card" id="fn-card-${idx}">
+      <div class="news-source">💹 ${escapeNewsHtml(item.sourceName || 'Finance')}</div>
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;" id="fn-en-${idx}">${escapeNewsHtml(item.title)}</div>
+      <div id="fn-translated-${idx}"></div>
+      <div class="news-meta" style="margin-top:12px;">
+        <span class="news-time">${time}</span>
+        ${item.link ? '<a href="' + escapeNewsHtml(item.link) + '" target="_blank" class="news-tag" style="text-decoration:none;">Эх сурвалж →</a>' : ''}
+        <button class="news-translate-btn" id="fn-btn-${idx}" onclick="translateFinanceArticle(${idx})">✦ Орчуулах</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function translateFinanceArticle(idx) {
+  const btn = document.getElementById('fn-btn-' + idx);
+  const card = document.getElementById('fn-card-' + idx);
+  const translatedDiv = document.getElementById('fn-translated-' + idx);
+  const item = financeArticles[idx];
+  if (!item) return;
+
+  const apiKey = safeGet('uc_api_key');
+  if (!apiKey) { showToast('⚠ Эхлээд API key тохируулна уу'); navigate('settings'); return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Орчуулж байна...';
+  translatedDiv.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px 0;">Орчуулж байна...</div>';
+
+  const text = item.title + '\n\n' + stripHtml(item.description || item.content || '');
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        messages: [{ role: 'user', content: `Доорх санхүүгийн мэдээний нийтлэлийг монгол хэлрүү мэргэжлийн орчуулга хий.
+
+Чухал шаардлагууд:
+- Зөв цэглэлт (. , ; : ? ! ...)
+- Санхүүгийн нэр томьёог зөв хэлбэрт оруулах
+- Алдаагүй, ойлгомжтой монгол хэл
+- Эх нийтлэлийн утгыг бүрэн дамжуулах
+- Гарчгийг Bold болгох
+
+Нийтлэл:
+${text}
+
+Формат:
+**[Монгол гарчиг]**
+
+[Монгол нийтлэл — 4-6 өгүүлбэр, зөв найруулгатай]` }]
+      })
+    });
+    const d = await r.json();
+    const translated = d.content?.[0]?.text || '';
+    const lines = translated.trim().split('\n').filter(l => l.trim());
+    const titleLine = lines[0].replace(/\*\*/g, '').trim();
+    const body = lines.slice(1).join(' ').trim();
+
+    translatedDiv.innerHTML = `<div class="finance-article-header">${escapeNewsHtml(titleLine)}</div><div class="finance-article-body">${escapeNewsHtml(body)}</div>`;
+    card.classList.add('full');
+    btn.textContent = '✓ Орчуулсан';
+    btn.classList.add('done');
+    btn.disabled = false;
+  } catch(e) {
+    translatedDiv.innerHTML = '<span style="color:var(--red);font-size:12px;">Алдаа: ' + e.message + '</span>';
+    btn.textContent = '✦ Дахин орчуулах';
+    btn.disabled = false;
+  }
+}
+
+async function translateAllFinance() {
+  const btn = document.getElementById('translate-all-finance');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Орчуулж байна...';
+  const items = document.querySelectorAll('[id^="fn-btn-"]');
+  for (let i = 0; i < Math.min(items.length, 5); i++) {
+    const b = items[i];
+    if (!b.classList.contains('done')) {
+      const idx = parseInt(b.id.replace('fn-btn-', ''));
+      await translateFinanceArticle(idx);
+      await new Promise(r => setTimeout(r, 600));
+    }
+  }
+  btn.disabled = false;
+  btn.innerHTML = '✦ Бүгдийг Орчуулах';
+}
+
+// ================================================================
+// ===== CRYPTO & STOCKS =====
+// ================================================================
+async function loadCryptoData() {
+  const container = document.getElementById('crypto-container');
+  const stockContainer = document.getElementById('stocks-container');
+  const sentContainer = document.getElementById('sentiment-container');
+  const lastUpdate = document.getElementById('market-last-update');
+
+  container.innerHTML = '<div class="news-loading"><div class="loading-icon">₿</div><div>Ханш ачааллаж байна...</div></div>';
+  stockContainer.innerHTML = '<div class="news-loading" style="padding:40px 20px;"><div>Хувьцааны мэдээлэл ачааллаж байна...</div></div>';
+
+  // Fetch crypto prices from CoinGecko (free, no API key needed)
+  const cryptoIds = 'bitcoin,ethereum,solana,binancecoin,cardano,ripple,dogecoin,polkadot,avalanche-2,chainlink';
+  try {
+    const r = await fetch(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoIds}&vs_currencies=usd&include_24hr_change=true&include_market_cap=true&include_24hr_vol=true`
+    );
+    const prices = await r.json();
+    renderCryptoPrices(prices);
+  } catch(e) {
+    container.innerHTML = '<div class="news-empty"><div>Крипто мэдээлэл татахад алдаа гарлаа: ' + e.message + '</div></div>';
+  }
+
+  // Fetch global crypto market data
+  try {
+    const r2 = await fetch('https://api.coingecko.com/api/v3/global');
+    const global = await r2.json();
+    renderMarketSentiment(global.data);
+  } catch(e) {}
+
+  // Stocks via Yahoo Finance (through allorigins proxy)
+  await loadStockData();
+
+  if (lastUpdate) {
+    const now = new Date();
+    lastUpdate.textContent = 'Сүүлд шинэчлэгдсэн: ' + now.toLocaleTimeString('mn-MN', { hour: '2-digit', minute: '2-digit' });
+  }
+}
+
+const CRYPTO_NAMES_MN = {
+  bitcoin: 'Биткойн', ethereum: 'Этериум', solana: 'Солана',
+  binancecoin: 'Байнанс Коин', cardano: 'Кардано', ripple: 'Риппл',
+  dogecoin: 'Догекойн', polkadot: 'Полкадот', 'avalanche-2': 'Авалянш', chainlink: 'Чейнлинк'
+};
+
+const CRYPTO_SYMBOLS = {
+  bitcoin: 'BTC', ethereum: 'ETH', solana: 'SOL',
+  binancecoin: 'BNB', cardano: 'ADA', ripple: 'XRP',
+  dogecoin: 'DOGE', polkadot: 'DOT', 'avalanche-2': 'AVAX', chainlink: 'LINK'
+};
+
+function formatNum(n) {
+  if (!n) return '—';
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'T';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  return '$' + n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+}
+
+function renderCryptoPrices(prices) {
+  const container = document.getElementById('crypto-container');
+  const cards = Object.entries(prices).map(([id, data]) => {
+    const change = data.usd_24h_change;
+    const isUp = change >= 0;
+    const price = data.usd;
+    const priceStr = price >= 100 ? '$' + price.toLocaleString('en-US', { maximumFractionDigits: 2 })
+                  : price >= 1 ? '$' + price.toFixed(4)
+                  : '$' + price.toFixed(6);
+    return `<div class="crypto-card">
+      <div class="crypto-name">${CRYPTO_NAMES_MN[id] || id}</div>
+      <div class="crypto-symbol">${CRYPTO_SYMBOLS[id] || id.toUpperCase()}</div>
+      <div class="crypto-price">${priceStr}</div>
+      <div class="crypto-change ${isUp ? 'up' : 'down'}">${isUp ? '▲' : '▼'} ${Math.abs(change).toFixed(2)}% (24ц)</div>
+      <div class="crypto-volume">Зах зээлийн cap: ${formatNum(data.usd_market_cap)}</div>
+    </div>`;
+  }).join('');
+  container.innerHTML = '<div class="crypto-grid">' + cards + '</div>';
+}
+
+function renderMarketSentiment(globalData) {
+  const container = document.getElementById('sentiment-container');
+  if (!globalData || !container) return;
+
+  const btcDom = globalData.market_cap_percentage?.btc?.toFixed(1) || '?';
+  const ethDom = globalData.market_cap_percentage?.eth?.toFixed(1) || '?';
+  const totalCap = formatNum(globalData.total_market_cap?.usd);
+  const totalVol = formatNum(globalData.total_volume?.usd);
+  const activeCryptos = globalData.active_cryptocurrencies?.toLocaleString() || '?';
+
+  container.innerHTML = `
+    <div class="crypto-card">
+      <div class="crypto-symbol">ДЭЛХИЙН НИЙТ CAP</div>
+      <div class="crypto-price" style="font-size:18px;">${totalCap}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">Нийт зах зээл</div>
+    </div>
+    <div class="crypto-card">
+      <div class="crypto-symbol">24Ц ЭРГЭЛТ</div>
+      <div class="crypto-price" style="font-size:18px;">${totalVol}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">Нийт арилжааны хэмжээ</div>
+    </div>
+    <div class="crypto-card">
+      <div class="crypto-symbol">BTC ДАВАМГАЙЛАЛ</div>
+      <div class="crypto-price" style="font-size:22px;">${btcDom}%</div>
+      <div class="crypto-change ${btcDom > 50 ? 'up' : ''}" style="margin-top:4px;">Bitcoin dominance</div>
+    </div>
+    <div class="crypto-card">
+      <div class="crypto-symbol">ETH ДАВАМГАЙЛАЛ</div>
+      <div class="crypto-price" style="font-size:22px;">${ethDom}%</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">Ethereum dominance</div>
+    </div>
+    <div class="crypto-card">
+      <div class="crypto-symbol">НИЙТ КРИПТО</div>
+      <div class="crypto-price" style="font-size:22px;">${activeCryptos}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">Идэвхтэй криптовалют</div>
+    </div>`;
+}
+
+// Major stocks via Yahoo Finance (through allorigins CORS proxy)
+const MAJOR_STOCKS = [
+  { ticker: 'AAPL', name: 'Apple', mn: 'Аппл' },
+  { ticker: 'GOOGL', name: 'Alphabet/Google', mn: 'Гүүгл' },
+  { ticker: 'MSFT', name: 'Microsoft', mn: 'Майкрософт' },
+  { ticker: 'AMZN', name: 'Amazon', mn: 'Амазон' },
+  { ticker: 'TSLA', name: 'Tesla', mn: 'Тесла' },
+  { ticker: 'META', name: 'Meta/Facebook', mn: 'Мета' },
+  { ticker: 'NVDA', name: 'NVIDIA', mn: 'Нвидиа' },
+  { ticker: 'BABA', name: 'Alibaba', mn: 'Алибаба' },
+  { ticker: '^GSPC', name: 'S&P 500', mn: 'S&P 500' },
+  { ticker: '^DJI', name: 'Dow Jones', mn: 'Доу Жонс' },
+  { ticker: '^IXIC', name: 'NASDAQ', mn: 'НАСДАК' },
+];
+
+async function loadStockData() {
+  const container = document.getElementById('stocks-container');
+  const tickers = MAJOR_STOCKS.map(s => s.ticker).join(',');
+
+  try {
+    // Use Yahoo Finance via allorigins proxy (free)
+    const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/spark?symbols=${encodeURIComponent(tickers)}&range=1d&interval=1d`;
+    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(yahooUrl);
+    
+    const r = await fetch(proxyUrl);
+    const data = await r.json();
+    const parsed = JSON.parse(data.contents);
+    const sparks = parsed?.spark?.result || [];
+
+    let rows = '';
+    sparks.forEach(s => {
+      const ticker = s.symbol;
+      const stockInfo = MAJOR_STOCKS.find(st => st.ticker === ticker) || { mn: ticker, name: ticker };
+      const resp = s.response?.[0];
+      const meta = resp?.meta;
+      if (!meta) return;
+
+      const price = meta.regularMarketPrice;
+      const prevClose = meta.chartPreviousClose;
+      const change = price - prevClose;
+      const changePct = (change / prevClose) * 100;
+      const isUp = change >= 0;
+
+      rows += `<tr>
+        <td><span class="stock-ticker">${ticker.replace('^','')}</span></td>
+        <td style="color:var(--muted);">${stockInfo.mn}</td>
+        <td class="stock-price">$${price?.toFixed(2) || '—'}</td>
+        <td class="${isUp ? 'stock-ch-up' : 'stock-ch-down'}">${isUp ? '+' : ''}${change?.toFixed(2) || '—'}</td>
+        <td class="${isUp ? 'stock-ch-up' : 'stock-ch-down'}">${isUp ? '+' : ''}${changePct?.toFixed(2) || '—'}%</td>
+      </tr>`;
+    });
+
+    if (rows) {
+      container.innerHTML = `<table class="stock-table">
+        <thead><tr><th>Тикер</th><th>Компани</th><th>Ханш</th><th>Өөрчлөлт</th><th>%</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    } else {
+      renderStockFallback();
+    }
+  } catch(e) {
+    renderStockFallback();
+  }
+}
+
+function renderStockFallback() {
+  // Show static data with note
+  const container = document.getElementById('stocks-container');
+  container.innerHTML = `<table class="stock-table">
+    <thead><tr><th>Тикер</th><th>Компани</th><th>Тайлбар</th></tr></thead>
+    <tbody>
+      ${MAJOR_STOCKS.map(s => `<tr>
+        <td><span class="stock-ticker">${s.ticker.replace('^','')}</span></td>
+        <td style="color:var(--muted);">${s.mn}</td>
+        <td style="color:var(--muted);font-size:12px;">Бодит цагийн мэдээлэл авахад шинэчлэнэ үү</td>
+      </tr>`).join('')}
+    </tbody>
+  </table>
+  <div style="padding:12px 16px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);">
+    ℹ Хувьцааны бодит ханшийг авахад "Шинэчлэх" дарна уу. Yahoo Finance API ашиглана.
+  </div>`;
+}
+
+// Auto-load crypto when navigating to crypto page
+const _origNavigate = typeof navigate !== 'undefined' ? navigate : null;
+
 </script>
+
+<!-- ===== SETTINGS PAGE ===== -->
+<div class="page" id="page-settings">
+  <div class="page-header">
+    <div>
+      <div class="page-title">⚙️ API Тохиргоо</div>
+      <div class="page-desc">Claude AI ажиллуулах API key тохируулах</div>
+    </div>
+  </div>
+  <div class="page-content" style="max-width:600px;">
+    <div class="panel">
+      <div class="panel-header">🔑 ANTHROPIC API KEY</div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7;">
+          AI хэрэгслүүд ажиллуулахад Anthropic API key шаардлагатай.<br>
+          <a href="https://console.anthropic.com/keys" target="_blank" style="color:var(--gold);">console.anthropic.com/keys</a> хаягаас API key авна уу.
+        </p>
+        <div>
+          <label>API KEY</label>
+          <input type="password" id="api-key-input" placeholder="sk-ant-..." style="font-family:'DM Mono',monospace;font-size:13px;">
+          <div style="font-size:11px;color:var(--muted);margin-top:6px;">Key таны төхөөрөмжид хадгалагдана. Бусдад харагдахгүй.</div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px;">
+          <button class="btn btn-gold" onclick="saveApiKey()" style="flex:1;">
+            💾 Хадгалах
+          </button>
+          <button class="btn btn-outline" onclick="testApiKey()">
+            🧪 Тест
+          </button>
+        </div>
+        <div id="api-key-status" style="margin-top:12px;font-size:13px;display:none;padding:10px 14px;border-radius:8px;"></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px;">
+      <div class="panel-header">📖 API KEY АВАХ ЗААВАР</div>
+      <div class="panel-body" style="font-size:13px;color:var(--muted);line-height:1.9;">
+        <b style="color:var(--text);">1.</b> <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold);">console.anthropic.com</a> хаягт орно<br>
+        <b style="color:var(--text);">2.</b> Бүртгэл үүсгэн нэвтэрнэ<br>
+        <b style="color:var(--text);">3.</b> <b style="color:var(--text);">API Keys</b> → <b style="color:var(--text);">Create Key</b> дарна<br>
+        <b style="color:var(--text);">4.</b> Үүссэн <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">sk-ant-...</code> кодыг хуулна<br>
+        <b style="color:var(--text);">5.</b> Дээрх талбарт буулгаж хадгална<br><br>
+        <span style="color:#5ce082;">✓ Free tier: сард $5 кредит</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== MARKETING NEWS PAGE ===== -->
+<div class="page" id="page-news-marketing">
+  <div class="page-header">
+    <div>
+      <div class="page-title">📣 Маркетингийн Мэдээ</div>
+      <div class="page-desc">Дэлхийн маркетингийн хамгийн сүүлийн үеийн мэдээ — монгол хэлээр</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="news-toolbar">
+      <button class="news-filter-btn active" onclick="filterMarketingNews('all', this)">Бүгд</button>
+      <button class="news-filter-btn" onclick="filterMarketingNews('social', this)">Нийгмийн сүлжээ</button>
+      <button class="news-filter-btn" onclick="filterMarketingNews('seo', this)">SEO</button>
+      <button class="news-filter-btn" onclick="filterMarketingNews('ai', this)">AI маркетинг</button>
+      <button class="news-filter-btn" onclick="filterMarketingNews('ads', this)">Реклам</button>
+      <div class="auto-refresh-toggle" style="margin-left:8px;">
+        <div class="toggle-switch" id="marketing-auto-toggle" onclick="toggleMarketingAuto()"></div>
+        <span>Авто</span>
+      </div>
+      <button class="news-refresh-btn" id="marketing-refresh-btn" onclick="loadMarketingNews()">
+        🔄 Шинэчлэх
+      </button>
+      <button class="translate-all-btn" id="translate-all-marketing" onclick="translateAllMarketing()">
+        ✦ Бүгдийг Орчуулах
+      </button>
+    </div>
+    <div id="marketing-news-container">
+      <div class="news-loading">
+        <div class="loading-icon">📡</div>
+        <div style="font-size:14px;">Мэдээ ачааллаж байна...</div>
+        <div style="font-size:12px;margin-top:6px;">Эхлээд "Шинэчлэх" дарна уу</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FINANCE NEWS PAGE ===== -->
+<div class="page" id="page-news-finance">
+  <div class="page-header">
+    <div>
+      <div class="page-title">💹 Санхүүгийн Мэдээ</div>
+      <div class="page-desc">Дэлхийн санхүүгийн мэдээ — найруулга алдаагүй, зөв цэгтэй монгол нийтлэл</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="news-toolbar">
+      <button class="news-filter-btn active" onclick="filterFinanceNews('all', this)">Бүгд</button>
+      <button class="news-filter-btn" onclick="filterFinanceNews('markets', this)">Зах зээл</button>
+      <button class="news-filter-btn" onclick="filterFinanceNews('economy', this)">Эдийн засаг</button>
+      <button class="news-filter-btn" onclick="filterFinanceNews('business', this)">Бизнес</button>
+      <button class="news-filter-btn" onclick="filterFinanceNews('crypto', this)">Крипто</button>
+      <button class="news-refresh-btn" id="finance-refresh-btn" onclick="loadFinanceNews()">
+        🔄 Шинэчлэх
+      </button>
+      <button class="translate-all-btn" id="translate-all-finance" onclick="translateAllFinance()">
+        ✦ Бүгдийг Орчуулах
+      </button>
+    </div>
+    <div id="finance-news-container">
+      <div class="news-loading">
+        <div class="loading-icon">💹</div>
+        <div style="font-size:14px;">Санхүүгийн мэдээ ачааллаж байна...</div>
+        <div style="font-size:12px;margin-top:6px;">Эхлээд "Шинэчлэх" дарна уу</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CRYPTO & STOCKS PAGE ===== -->
+<div class="page" id="page-crypto">
+  <div class="page-header">
+    <div>
+      <div class="page-title">₿ Хувьцаа & Крипто</div>
+      <div class="page-desc">Дэлхийн зах зээлийн бодит цаг дахь мэдээлэл</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <div class="market-last-update" id="market-last-update" style="margin:0;"></div>
+      <button class="news-refresh-btn" onclick="loadCryptoData()">🔄 Шинэчлэх</button>
+    </div>
+  </div>
+  <div class="page-content">
+
+    <!-- Crypto Section -->
+    <div class="market-section-title">₿ Криптовалютын Ханш</div>
+    <div id="crypto-container">
+      <div class="news-loading">
+        <div class="loading-icon">₿</div>
+        <div>Крипто ханш ачааллаж байна...</div>
+      </div>
+    </div>
+
+    <!-- Major Stocks -->
+    <div class="market-section-title">📊 Дэлхийн Хувьцааны Зах зээл</div>
+    <div id="stocks-container" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <div class="news-loading" style="padding:40px 20px;">
+        <div>Хувьцааны мэдээлэл ачааллаж байна...</div>
+      </div>
+    </div>
+
+    <!-- Fear & Greed Index -->
+    <div class="market-section-title">😨 Зах зээлийн Сэтгэл Байдал</div>
+    <div id="sentiment-container" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;">
+    </div>
+
+  </div>
+</div>
 
 <!-- ===== FLOATING ASSIST BUTTON ===== -->
 <div class="fab-wrap" id="fab-wrap">
