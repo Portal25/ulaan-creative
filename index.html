@@ -2143,6 +2143,10 @@ function saveApiKey() {
     status.textContent = '⚠ API key оруулна уу';
     return;
   }
+  if (key.length < 50) {
+    showToast('⚠ API key хэтэрхий богино байна. Жинхэнэ key оруулна уу.');
+    return;
+  }
   if (!key.startsWith('sk-ant-')) {
     status.style.display = 'block';
     status.style.background = 'rgba(224,92,92,.15)';
