@@ -1873,6 +1873,68 @@
 
 </main>
 
+
+<!-- SOCIAL LINKS + INSTALL GUIDE -->
+<div id="social-links" style="position:fixed;bottom:20px;left:20px;display:flex;flex-direction:column;gap:8px;z-index:999;">
+  <a href="https://www.facebook.com/profile.php?id=100044421249835" target="_blank"
+     style="display:flex;align-items:center;gap:8px;background:rgba(24,24,24,0.95);border:1px solid rgba(255,255,255,0.1);padding:8px 14px;border-radius:24px;text-decoration:none;color:#f0ebe2;font-size:13px;backdrop-filter:blur(10px);">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    Facebook
+  </a>
+  <a href="https://www.instagram.com/ulaancreative/" target="_blank"
+     style="display:flex;align-items:center;gap:8px;background:rgba(24,24,24,0.95);border:1px solid rgba(255,255,255,0.1);padding:8px 14px;border-radius:24px;text-decoration:none;color:#f0ebe2;font-size:13px;backdrop-filter:blur(10px);">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="url(#igGrad)"><defs><linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="25%" style="stop-color:#e6683c"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="75%" style="stop-color:#cc2366"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    Instagram
+  </a>
+  <button onclick="document.getElementById('install-guide-popup').style.display='flex'"
+     style="display:flex;align-items:center;gap:8px;background:rgba(227,21,21,0.15);border:1px solid rgba(227,21,21,0.4);padding:8px 14px;border-radius:24px;color:#e31515;font-size:13px;cursor:pointer;backdrop-filter:blur(10px);">
+    📲 App суулгах
+  </button>
+</div>
+
+<!-- INSTALL GUIDE POPUP -->
+<div id="install-guide-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#111111;border:1px solid #222;border-radius:20px;padding:28px;max-width:420px;width:100%;position:relative;">
+    <button onclick="document.getElementById('install-guide-popup').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#6b6560;font-size:22px;cursor:pointer;">✕</button>
+    <div style="font-size:22px;font-weight:700;color:#f0ebe2;margin-bottom:6px;">📲 App суулгах заавар</div>
+    <div style="color:#6b6560;font-size:13px;margin-bottom:24px;">Улаан Creative-г утсандаа суулгаарай</div>
+
+    <!-- iOS -->
+    <div style="background:#181818;border-radius:14px;padding:18px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#f0ebe2"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <div>
+          <div style="color:#f0ebe2;font-weight:600;font-size:15px;">iPhone / iPad (iOS)</div>
+          <div style="color:#6b6560;font-size:12px;">Safari browser ашиглана уу</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#e31515;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">1</span><span>Safari-д <b>ulaan-creative.vercel.app</b> нээнэ</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#e31515;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">2</span><span>Доор байгаа <b>Share</b> товч (□↑) дарна</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#e31515;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">3</span><span><b>"Add to Home Screen"</b> сонгоно</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#e31515;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">4</span><span><b>Add</b> дарж дуусгана</span></div>
+      </div>
+    </div>
+
+    <!-- Android -->
+    <div style="background:#181818;border-radius:14px;padding:18px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#3DDC84"><path d="M17.523 15.341a.75.75 0 00-.75.75v3.568a.75.75 0 001.5 0v-3.568a.75.75 0 00-.75-.75zm-11.046 0a.75.75 0 00-.75.75v3.568a.75.75 0 001.5 0v-3.568a.75.75 0 00-.75-.75zM3.523 8.159a.75.75 0 00-.75.75v6.068a.75.75 0 001.5 0V8.909a.75.75 0 00-.75-.75zm16.954 0a.75.75 0 00-.75.75v6.068a.75.75 0 001.5 0V8.909a.75.75 0 00-.75-.75zM7.875 4.386l-1.079-1.92a.375.375 0 00-.651.375l1.05 1.868A7.483 7.483 0 004.5 10.5h15a7.483 7.483 0 00-2.695-5.791l1.05-1.868a.375.375 0 00-.651-.375l-1.079 1.92A7.459 7.459 0 0012 3.75a7.459 7.459 0 00-4.125 1.136zM9.75 8.25a.75.75 0 110 1.5.75.75 0 010-1.5zm4.5 0a.75.75 0 110 1.5.75.75 0 010-1.5zM4.5 11.25h15v6a1.5 1.5 0 01-1.5 1.5h-12a1.5 1.5 0 01-1.5-1.5v-6z"/></svg>
+        <div>
+          <div style="color:#f0ebe2;font-weight:600;font-size:15px;">Android</div>
+          <div style="color:#6b6560;font-size:12px;">Chrome browser ашиглана уу</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#3DDC84;color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">1</span><span>Chrome-д <b>ulaan-creative.vercel.app</b> нээнэ</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#3DDC84;color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">2</span><span>Баруун дээд <b>⋮ цэс</b> дарна</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#3DDC84;color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">3</span><span><b>"Add to Home screen"</b> сонгоно</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;color:#f0ebe2;font-size:13px;"><span style="background:#3DDC84;color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;">4</span><span><b>Add</b> дарж дуусгана</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
