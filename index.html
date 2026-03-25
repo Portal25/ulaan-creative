@@ -3690,8 +3690,10 @@ function sendQuick(text) {
     }
   }
 
-  wrap.addEventListener('mousedown',  onDown, { passive: false });
-  wrap.addEventListener('touchstart', onDown, { passive: false });
+  if (wrap) {
+    wrap.addEventListener('mousedown',  onDown, { passive: false });
+    wrap.addEventListener('touchstart', onDown, { passive: false });
+  }
   document.addEventListener('mousemove',  onMove);
   document.addEventListener('touchmove',  onMove, { passive: false });
   document.addEventListener('mouseup',  onUp);
