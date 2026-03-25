@@ -1940,6 +1940,7 @@
 
 <script>
 window.onerror = function(msg, src, line, col, err) { console.log("UC Error:", msg, line); alert("JS Алдаа: " + msg + " (мөр: " + line + ")"); return true; };
+let apiKey = '';
 // ===== STATE =====
 // ===== STATE =====
 let currentTool = 'social';
@@ -2150,6 +2151,7 @@ function saveApiKey() {
     return;
   }
   safeSet('uc_api_key', key);
+  apiKey = key;
   status.style.display = 'block';
   status.style.background = 'rgba(92,224,130,.12)';
   status.style.color = '#5ce082';
@@ -2352,6 +2354,7 @@ async function generateFromPhoto() {
   const mediaType = document.getElementById('gen-btn')._mediaType || 'image/jpeg';
 
   const apiKey = safeGet('uc_api_key');
+  apiKey = safeGet('uc_api_key') || '';
   if (!apiKey) { showToast('⚠ API key тохируулагдаагүй. Эзэмшигч тохируулах болно.'); return; }
 
   isGenerating = true;
@@ -3933,6 +3936,7 @@ async function translateMarketingArticle(idx) {
   if (!item) return;
 
   const apiKey = safeGet('uc_api_key');
+  apiKey = safeGet('uc_api_key') || '';
   if (!apiKey) { showToast('⚠ API key тохируулагдаагүй. Эзэмшигч тохируулах болно.'); return; }
 
   btn.disabled = true;
@@ -4087,6 +4091,7 @@ async function translateFinanceArticle(idx) {
   if (!item) return;
 
   const apiKey = safeGet('uc_api_key');
+  apiKey = safeGet('uc_api_key') || '';
   if (!apiKey) { showToast('⚠ API key тохируулагдаагүй. Эзэмшигч тохируулах болно.'); return; }
 
   btn.disabled = true;
