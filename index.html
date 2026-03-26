@@ -2896,6 +2896,7 @@ function saveUsers(u) { safeSet(STORAGE_KEY, JSON.stringify(u)); }
 function getSession() { try { return JSON.parse(sessGet(SESSION_KEY)||'null'); } catch { return null; } }
 
 async function doLogin() {
+  let hash = '', pwd = '';
   const btn = document.querySelector('#login-input-area .auth-btn');
   if (btn) { btn.disabled=true; btn.innerHTML='Шалгаж байна...'; }
 
@@ -2905,31 +2906,31 @@ async function doLogin() {
 
     if (currentLoginMethod === 'phone') {
       const phone = sanitize(document.getElementById('login-phone').value).replace(/\s/g,'');
-      const pwd   = document.getElementById('login-pwd-phone').value;
+      pwd   = document.getElementById('login-pwd-phone').value;
       if (!phone || !pwd) { errMsg = '⚠ Утасны дугаар болон нууц үгийг оруулна уу'; }
       else {
         rlId = 'phone:'+phone;
         if (checkRateLimit(rlId)) {
-          const hash = await sha256(pwd + phone);
+          hash = await sha256(pwd + phone);
           user = users['phone:'+phone];
           if (!user || (user.pwd !== hash && user.pwd !== pwd)) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'email') {
       const email = sanitize(document.getElementById('login-email').value).toLowerCase();
-      const pwd   = document.getElementById('login-pwd-email').value;
+      pwd   = document.getElementById('login-pwd-email').value;
       if (!email || !pwd) { errMsg = '⚠ Имэйл болон нууц үгийг оруулна уу'; }
       else {
         rlId = 'email:'+email;
         if (checkRateLimit(rlId)) {
-          const hash = await sha256(pwd + email);
+          hash = await sha256(pwd + email);
           user = users['email:'+email];
           if (!user || (user.pwd !== hash && user.pwd !== pwd)) { errMsg = '⚠ Имэйл хаяг эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'facebook') {
       const fb  = sanitize(document.getElementById('login-fb').value).replace('@','').toLowerCase();
-      const pwd = document.getElementById('login-pwd-fb').value;
+      pwd = document.getElementById('login-pwd-fb').value;
       if (!fb || !pwd) { errMsg = '⚠ Facebook хаяг болон нууц үгийг оруулна уу'; }
       else {
         rlId = 'fb:'+fb;
@@ -2938,7 +2939,7 @@ async function doLogin() {
           for (var u of allUsers) {
             if (u.facebook && u.facebook.toLowerCase() === fb) {
               const salt = u.phone || u.email || fb;
-              const hash = await sha256(pwd + salt);
+              hash = await sha256(pwd + salt);
               if (u.pwd === hash) { user = u; break; }
             }
           }
