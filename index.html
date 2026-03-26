@@ -16,23 +16,23 @@
 <style>
   :root {
     --bg: #000000;
-    --bg2: #080808;
-    --surface: #0d0d0d;
-    --surface2: #141414;
-    --border: #1c1c1c;
-    --border2: #252525;
-    --text: #e0e0e0;
-    --text2: #999999;
-    --muted: #555555;
-    --accent: #f5821f;
-    --accent2: #ff9500;
-    --accent-dim: rgba(245,130,31,0.1);
-    --gold: #f5821f;
-    --gold-light: #ff9500;
-    --gold-dim: rgba(245,130,31,0.08);
-    --red: #ff4444;
-    --green: #00d066;
-    --blue: #3388ff;
+    --bg2: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #222222;
+    --border2: #333333;
+    --text: #ffffff;
+    --text2: #aaaaaa;
+    --muted: #666666;
+    --accent: #cc0000;
+    --accent2: #ee0000;
+    --accent-dim: rgba(204,0,0,0.12);
+    --gold: #cc0000;
+    --gold-light: #ee0000;
+    --gold-dim: rgba(204,0,0,0.08);
+    --red: #cc0000;
+    --green: #00aa44;
+    --blue: #ffffff;
   }
 
 
@@ -379,7 +379,7 @@
 
   .btn-gold {
     background: var(--accent);
-    color: #000;
+    color: #fff;
     width: 100%;
     justify-content: center;
     font-size: 11px;
@@ -1347,6 +1347,175 @@
   .toggle-switch.on { background: var(--gold); }
   .toggle-switch::after { content: ''; position: absolute; width: 14px; height: 14px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: left .2s; }
   .toggle-switch.on::after { left: 16px; }
+
+  /* ═══ BLOOMBERG MOBILE OVERHAUL ═══ */
+
+  /* Mobile bottom nav */
+  .mobile-bottom-nav {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 56px;
+    background: #000;
+    border-top: 1px solid #222;
+    z-index: 1000;
+    align-items: stretch;
+  }
+  .mobile-bottom-nav .mbn-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 3px; cursor: pointer; color: #666;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-bottom-nav .mbn-item.active { color: #cc0000; }
+  .mobile-bottom-nav .mbn-item svg { width: 20px; height: 20px; stroke-width: 1.5; }
+
+  /* Mobile header */
+  .mobile-header {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 48px; background: #000;
+    border-bottom: 2px solid #cc0000;
+    z-index: 999;
+    align-items: center; justify-content: space-between;
+    padding: 0 16px;
+  }
+  .mobile-header .mh-logo {
+    font-size: 22px; font-weight: 900;
+    letter-spacing: -0.04em; color: #fff;
+  }
+  .mobile-header .mh-logo span { color: #cc0000; }
+  .mobile-header .mh-right { display: flex; gap: 12px; align-items: center; }
+  .mobile-header .mh-btn {
+    background: none; border: none; cursor: pointer;
+    color: #fff; padding: 4px;
+  }
+
+  /* Mobile tool cards - Bloomberg article style */
+  @media (max-width: 768px) {
+    .mobile-header { display: flex; }
+    .mobile-bottom-nav { display: flex; }
+    
+    /* Hide desktop sidebar */
+    .sidebar { display: none !important; }
+    
+    /* Main content full width */
+    .main-content {
+      margin-left: 0 !important;
+      padding-top: 48px !important;
+      padding-bottom: 64px !important;
+      width: 100% !important;
+    }
+
+    /* Page header compact */
+    .page-header {
+      padding: 10px 16px !important;
+      border-bottom: 1px solid #222 !important;
+    }
+    .page-title { font-size: 11px !important; }
+    .page-subtitle { display: none; }
+
+    /* Stats grid 2x2 compact */
+    .stats-grid {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 1px !important;
+      background: #222;
+      border: 1px solid #222;
+      margin: 0 !important;
+    }
+    .stat-card {
+      padding: 12px !important;
+      background: #000 !important;
+      border: none !important;
+      border-top: none !important;
+    }
+    .stat-card::before { display: none !important; }
+    .stat-val { font-size: 20px !important; }
+    .stat-label { font-size: 9px !important; }
+
+    /* Tool cards - Bloomberg article list style */
+    .tools-grid {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+    }
+    .tool-card {
+      padding: 14px 16px !important;
+      border: none !important;
+      border-bottom: 1px solid #1a1a1a !important;
+      border-top: none !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 12px !important;
+      background: #000 !important;
+    }
+    .tool-card::before { display: none !important; }
+    .tool-card:hover { background: #0d0d0d !important; }
+    .tool-emoji { font-size: 20px !important; margin: 0 !important; flex-shrink: 0; }
+    .tool-info { flex: 1; min-width: 0; }
+    .tool-name { font-size: 13px !important; font-weight: 700 !important; margin-bottom: 2px !important; text-transform: none !important; letter-spacing: 0 !important; }
+    .tool-desc { font-size: 11px !important; color: #888 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tool-tag { margin-top: 4px !important; font-size: 9px !important; padding: 2px 8px !important; }
+    .tool-arrow { color: #444; flex-shrink: 0; }
+
+    /* Workspace panels stack */
+    .workspace-split { flex-direction: column !important; }
+    #input-panel, #output-panel {
+      width: 100% !important;
+      min-height: 200px !important;
+    }
+
+    /* Input panel compact */
+    #input-panel { padding: 12px !important; }
+    #input-panel .form-label { font-size: 10px !important; }
+    #input-panel input, #input-panel textarea, #input-panel select {
+      font-size: 14px !important;
+      padding: 10px !important;
+    }
+
+    /* Generate button full width */
+    .btn-gold { padding: 14px !important; font-size: 12px !important; }
+
+    /* Quick Actions section header */
+    .section-header, .section-title {
+      padding: 10px 16px !important;
+      font-size: 10px !important;
+      letter-spacing: 0.1em !important;
+      border-bottom: 1px solid #1a1a1a !important;
+      color: #cc0000 !important;
+    }
+
+    /* Ticker bar adjust */
+    .ticker-bar { top: 0 !important; }
+    .app-wrap { margin-top: 0 !important; }
+
+    /* Auth overlay mobile */
+    .auth-card {
+      margin: 0 !important;
+      border-radius: 0 !important;
+      min-height: 100dvh !important;
+      width: 100% !important;
+      padding: 80px 24px 40px !important;
+    }
+
+    /* Facebook/Instagram bottom links */
+    .social-fixed-btns {
+      display: none !important;
+    }
+
+    /* Owner topbar */
+    .topbar-owner { display: flex !important; }
+  }
+
+  /* Tool card arrow indicator */
+  .tool-card .tool-arrow::after {
+    content: '›';
+    font-size: 20px;
+    color: #333;
+  }
+
 </style>
 </head>
 <body>
@@ -1367,6 +1536,44 @@
     <span class="ticker-item">ИМЭЙЛ КАМПЕЙН <span class="t-up">▲ 4.2%</span></span>
   </div>
 </div>
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="mh-logo">ULAAN<span>●</span></div>
+  <div class="mh-right">
+    <button class="mh-btn" onclick="navigate('tools')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="mh-btn" onclick="openOwnerLogin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+  <div class="mbn-item active" id="mbn-home" onclick="navigate('dashboard');setMobileActive('mbn-home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    НҮҮР
+  </div>
+  <div class="mbn-item" id="mbn-tools" onclick="navigate('tools');setMobileActive('mbn-tools')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="6" height="6"/><rect x="16" y="3" width="6" height="6"/><rect x="9" y="3" width="6" height="6"/><rect x="2" y="11" width="6" height="6"/><rect x="16" y="11" width="6" height="6"/><rect x="9" y="11" width="6" height="6"/></svg>
+    TOOLS
+  </div>
+  <div class="mbn-item" id="mbn-workspace" onclick="navigate('workspace');setMobileActive('mbn-workspace')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    AI
+  </div>
+  <div class="mbn-item" id="mbn-agents" onclick="navigate('agents');setMobileActive('mbn-agents')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+    AGENTS
+  </div>
+  <div class="mbn-item" id="mbn-news" onclick="navigate('market-mn');setMobileActive('mbn-news')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0c0 1.1.9 2 2 2"/><path d="M10 7h8"/><path d="M10 11h8"/><path d="M10 15h5"/></svg>
+    МЭДЭЭ
+  </div>
+</nav>
+
+
 
 
 <!-- ===== AUTH MODAL ===== -->
@@ -4518,6 +4725,12 @@ function renderStockFallback() {
 // Auto-load crypto when navigating to crypto page
 const _origNavigate = typeof navigate !== 'undefined' ? navigate : null;
 
+
+function setMobileActive(id) {
+  document.querySelectorAll('.mbn-item').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+}
 </script>
 
 <!-- ===== SETTINGS PAGE ===== -->
