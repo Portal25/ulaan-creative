@@ -236,25 +236,57 @@ function LoginScreen({ onLogin }) {
   const [msg, setMsg] = useState("");
 
   const handleLogin = async () => {
-    window.currentLoginMethod = method;
-    if (method === "phone") {
-      document.getElementById("login-phone-hidden").value = phone;
-      document.getElementById("login-pwd-phone-hidden").value = pwd;
-    } else {
-      document.getElementById("login-email-hidden").value = email;
-      document.getElementById("login-pwd-email-hidden").value = pwd;
-    }
-    try { await window.doLogin(); if(window.getSession()) onLogin(window.getSession()); else setMsg("⚠ Нэвтрэх амжилтгүй"); }
-    catch(e) { setMsg("⚠ " + e.message); }
+    setMsg("");
+    try {
+      if (!window.sha256 || !window.getUsers) { setMsg("⚠ Auth core ачаалагдаагүй байна"); return; }
+      const users = window.getUsers();
+      if (method === "phone") {
+        const cleanPhone = phone.trim().replace(/\s/g, "");
+        if (!cleanPhone || !pwd) { setMsg("⚠ Утас болон нууц үгээ оруулна уу"); return; }
+        const user = users["phone:" + cleanPhone];
+        if (!user) { setMsg("⚠ Утас эсвэл нууц үг буруу"); return; }
+        const hash = await window.sha256(pwd + cleanPhone);
+        if (user.pwd !== hash && user.pwd !== pwd) { setMsg("⚠ Утас эсвэл нууц үг буруу"); return; }
+        const session = { ...user, _token: window.genToken(), _loginAt: Date.now() };
+        delete session.pwd;
+        window.sessSet("uc_session", JSON.stringify(session));
+        onLogin(session);
+      } else {
+        const cleanEmail = email.trim().toLowerCase();
+        if (!cleanEmail || !pwd) { setMsg("⚠ Имэйл болон нууц үгээ оруулна уу"); return; }
+        const user = users["email:" + cleanEmail];
+        if (!user) { setMsg("⚠ Имэйл эсвэл нууц үг буруу"); return; }
+        const hash = await window.sha256(pwd + cleanEmail);
+        if (user.pwd !== hash && user.pwd !== pwd) { setMsg("⚠ Имэйл эсвэл нууц үг буруу"); return; }
+        const session = { ...user, _token: window.genToken(), _loginAt: Date.now() };
+        delete session.pwd;
+        window.sessSet("uc_session", JSON.stringify(session));
+        onLogin(session);
+      }
+    } catch(e) { setMsg("⚠ " + e.message); }
   };
 
   const handleRegister = async () => {
-    document.getElementById("reg-name-hidden").value = name;
-    document.getElementById("reg-phone-hidden").value = phone;
-    document.getElementById("reg-email-hidden").value = email;
-    document.getElementById("reg-pwd-hidden").value = pwd;
-    try { await window.doRegister(); if(window.getSession()) onLogin(window.getSession()); else setMsg("⚠ Бүртгэл амжилтгүй"); }
-    catch(e) { setMsg("⚠ " + e.message); }
+    setMsg("");
+    try {
+      if (!window.sha256 || !window.getUsers) { setMsg("⚠ Auth core ачаалагдаагүй байна"); return; }
+      if (!name.trim()) { setMsg("⚠ Нэрээ оруулна уу"); return; }
+      const cleanPhone = phone.trim().replace(/\s/g, "");
+      const cleanEmail = email.trim().toLowerCase();
+      if (!cleanPhone && !cleanEmail) { setMsg("⚠ Утас эсвэл имэйл оруулна уу"); return; }
+      if (!pwd || pwd.length < 6) { setMsg("⚠ Нууц үг 6+ тэмдэгт байна"); return; }
+      const users = window.getUsers();
+      const salt = cleanPhone || cleanEmail;
+      const hash = await window.sha256(pwd + salt);
+      const key = cleanPhone ? "phone:" + cleanPhone : "email:" + cleanEmail;
+      if (users[key]) { setMsg("⚠ Аль хэдийн бүртгэлтэй байна"); return; }
+      users[key] = { name: name.trim(), phone: cleanPhone || "", email: cleanEmail || "", pwd: hash, createdAt: new Date().toISOString() };
+      window.saveUsers(users);
+      const session = { ...users[key], _token: window.genToken(), _loginAt: Date.now() };
+      delete session.pwd;
+      window.sessSet("uc_session", JSON.stringify(session));
+      onLogin(session);
+    } catch(e) { setMsg("⚠ " + e.message); }
   };
 
   return (
@@ -598,55 +630,10 @@ if (rootEl && window.ReactDOM) {
 </script>
 
 <script>
-// Bridge: auth-core functions → React hidden inputs
-window.onLoggedIn = function(session) {
-  // React will detect this via getSession polling
-  console.log('[AUTH] Logged in:', session.name);
-};
-window.onLoggedOut = function() {
-  window.location.reload();
-};
-
-// Patch doLogin/doRegister to read from hidden inputs
-const _origDoLogin = window.doLogin;
-window.doLogin = async function() {
-  const method = window.currentLoginMethod || 'phone';
-  // Map hidden inputs to the ones auth-core reads
-  const phoneEl = document.getElementById('login-phone');
-  const pwdPhoneEl = document.getElementById('login-pwd-phone');
-  const emailEl = document.getElementById('login-email');
-  const pwdEmailEl = document.getElementById('login-pwd-email');
-
-  if (phoneEl) phoneEl.value = document.getElementById('login-phone-hidden')?.value || '';
-  if (pwdPhoneEl) pwdPhoneEl.value = document.getElementById('login-pwd-phone-hidden')?.value || '';
-  if (emailEl) emailEl.value = document.getElementById('login-email-hidden')?.value || '';
-  if (pwdEmailEl) pwdEmailEl.value = document.getElementById('login-pwd-email-hidden')?.value || '';
-
-  return _origDoLogin && _origDoLogin();
-};
-
-const _origDoRegister = window.doRegister;
-window.doRegister = async function() {
-  const nameEl = document.getElementById('reg-name');
-  const phoneEl = document.getElementById('reg-phone');
-  const emailEl = document.getElementById('reg-email');
-  const pwdEl = document.getElementById('reg-pwd');
-
-  if (nameEl) nameEl.value = document.getElementById('reg-name-hidden')?.value || '';
-  if (phoneEl) phoneEl.value = document.getElementById('reg-phone-hidden')?.value || '';
-  if (emailEl) emailEl.value = document.getElementById('reg-email-hidden')?.value || '';
-  if (pwdEl) pwdEl.value = document.getElementById('reg-pwd-hidden')?.value || '';
-
-  return _origDoRegister && _origDoRegister();
-};
-
+// Auth handled directly in React
 // Hidden auth inputs (for auth-core compatibility)
 document.addEventListener('DOMContentLoaded', () => {
-  const hidden = ['login-phone','login-pwd-phone','login-email','login-pwd-email','reg-name','reg-phone','reg-email','reg-pwd'].map(id => {
-    const el = document.createElement('input');
-    el.id = id; el.type = id.includes('pwd') ? 'password' : 'text'; el.style.display = 'none';
-    document.body.appendChild(el); return el;
-  });
+  // No bridge inputs needed - React handles auth directly
 
   // React mounted by babel script
 });
