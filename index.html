@@ -1655,6 +1655,10 @@
       </div>
 
       <div class="auth-switch">
+    <div style="text-align:center;margin-top:8px;">
+      <span style="font-size:12px;color:var(--muted);">Нууц үг мартсан уу? </span>
+      <span style="font-size:12px;color:var(--accent);cursor:pointer;text-decoration:underline;" onclick="showForgotPassword()">Сэргээх</span>
+    </div>
         Бүртгэл байхгүй юу? <button onclick="switchAuthView('register')">Бүртгүүлэх</button>
       </div>
       <div class="auth-secure">
@@ -2483,8 +2487,8 @@ function navigate(page) {
   }
 }
 
-function saveApiKey() { showToast("✓ API key server дээр тохируулагдсан байна"); return; // disabled - key is in Vercel env
-  if(false) {
+function saveApiKey() { showToast("✓ API key server дээр тохируулагдсан байна"); return; }
+function saveApiKey_disabled() { if(false) {
   if (!isOwner) { showToast('⚠ Зөвхөн эзэмшигч API key тохируулна'); return; }
   const key = document.getElementById('api-key-input').value.trim();
   const status = document.getElementById('api-key-status');
@@ -3690,6 +3694,7 @@ function ownerLogout() {
 }
 
 function refreshOwnerData() {
+  if (typeof refreshResetRequests === "function") refreshResetRequests();
   const users = getUsers();
   const agentList = JSON.parse(safeGet('uc_agents') || '[]');
 
@@ -4721,6 +4726,69 @@ function renderStockFallback() {
 const _origNavigate = typeof navigate !== 'undefined' ? navigate : null;
 
 
+
+function showForgotPassword() {
+  document.getElementById('forgot-contact').value = '';
+  document.getElementById('forgot-modal').style.display = 'flex';
+}
+
+function submitForgotPassword() {
+  const contact = document.getElementById('forgot-contact').value.trim();
+  if (!contact) { showToast('⚠ Утас эсвэл имэйл оруулна уу'); return; }
+  
+  const users = getUsers();
+  const phone = contact.replace(/\s/g,'').replace('+976','');
+  const email = contact.toLowerCase();
+  
+  let foundUser = null;
+  let foundKey = null;
+  
+  // Search by phone or email
+  for (const [key, u] of Object.entries(users)) {
+    if ((u.phone && u.phone.replace(/\s/g,'') === phone) || 
+        (u.email && u.email.toLowerCase() === email)) {
+      foundUser = u;
+      foundKey = key;
+      break;
+    }
+  }
+  
+  if (!foundUser) {
+    showToast('⚠ Энэ утас/имэйлтэй бүртгэл олдсонгүй');
+    return;
+  }
+  
+  // Store reset request for owner to see in Owner Panel
+  const resetRequests = JSON.parse(safeGet('uc_reset_requests') || '[]');
+  resetRequests.unshift({
+    name: foundUser.name,
+    contact: contact,
+    key: foundKey,
+    time: new Date().toISOString(),
+    status: 'pending'
+  });
+  safeSet('uc_reset_requests', JSON.stringify(resetRequests.slice(0, 20)));
+  
+  document.getElementById('forgot-modal').style.display = 'none';
+  showToast('✓ Хүсэлт илгээгдлээ. Owner нууц үгийг шинэчилж өгнө.');
+}
+
+function ownerResetPassword(userKey, newPwd) {
+  if (!isOwner) { showToast('⚠ Зөвхөн эзэмшигч'); return; }
+  if (!newPwd || newPwd.length < 6) { showToast('⚠ Нууц үг хамгийн багадаа 6 тэмдэгт'); return; }
+  
+  const users = getUsers();
+  if (!users[userKey]) { showToast('⚠ Хэрэглэгч олдсонгүй'); return; }
+  
+  sha256(newPwd + (users[userKey].phone || users[userKey].email || '')).then(hash => {
+    users[userKey].pwd = hash;
+    saveUsers(users);
+    showToast('✓ ' + users[userKey].name + '-ийн нууц үг шинэчлэгдлээ');
+    refreshOwnerData();
+  });
+}
+
+
 function setMobileActive(id) {
   document.querySelectorAll('.mbn-item').forEach(el => el.classList.remove('active'));
   const el = document.getElementById(id);
@@ -4897,6 +4965,19 @@ function setMobileActive(id) {
         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
       </svg>
     </button>
+  </div>
+</div>
+
+
+<!-- FORGOT PASSWORD MODAL -->
+<div id="forgot-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:10000;align-items:center;justify-content:center;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);padding:32px;width:90%;max-width:400px;">
+    <h3 style="font-size:16px;font-weight:700;letter-spacing:0.06em;margin-bottom:8px;text-transform:uppercase;">🔑 Нууц үг сэргээх</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">Бүртгэлтэй утасны дугаар эсвэл имэйлээ оруулна уу. Owner шинэ нууц үг тохируулж өгнө.</p>
+    <label style="font-size:10px;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;">Утас эсвэл Имэйл</label>
+    <input id="forgot-contact" type="text" placeholder="+976 8000 0000" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px;font-size:14px;margin:6px 0 16px;box-sizing:border-box;">
+    <button class="btn btn-gold" onclick="submitForgotPassword()" style="width:100%;margin-bottom:10px;">📨 Хүсэлт илгээх</button>
+    <button onclick="document.getElementById('forgot-modal').style.display='none'" style="width:100%;background:none;border:1px solid var(--border);color:var(--muted);padding:10px;cursor:pointer;font-size:12px;">Буцах</button>
   </div>
 </div>
 
