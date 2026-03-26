@@ -2487,7 +2487,7 @@ function navigate(page) {
   }
 }
 
-function saveApiKey() { showToast("✓ API key server дээр тохируулагдсан байна"); return; }
+// function saveApiKey → see auth-core script
 function openTool(toolId) {
   currentTool = toolId;
 
@@ -3052,28 +3052,9 @@ function loginWithFacebook() {
 // ── Clerk-style auth UI helpers ──
 let currentLoginMethod = 'phone';
 
-function switchAuthView(view) {
-  document.getElementById('view-login').style.display    = view === 'login'    ? 'block' : 'none';
-  document.getElementById('view-register').style.display = view === 'register' ? 'block' : 'none';
-}
+// function switchAuthView → see auth-core script
 
-function selectMethod(method) {
-  currentLoginMethod = method;
-  // highlight method buttons
-  ['phone','email','facebook'].forEach(m => {
-    var _el2=document.getElementById('method-btn-'+m); if(_el2) _el2.classList.toggle('active-method', m===method);
-  });
-  // show input area
-  document.getElementById('login-input-area').style.display = 'block';
-  // show correct panel
-  ['phone','email','facebook'].forEach(m => {
-    const el = document.getElementById('lm-' + m);
-    if (el) el.style.display = m === method ? 'flex' : 'none';
-  });
-  // focus first input
-  const map = { phone:'login-phone', email:'login-email', facebook:'login-fb' };
-  setTimeout(function(){ var _el3=document.getElementById(map[method]); if(_el3) _el3.focus(); }, 50);
-}
+// function selectMethod → see auth-core script
 
 function switchLoginMethod(method) { selectMethod(method); } // compat shim
 
@@ -3150,129 +3131,9 @@ function getUsers() { try { return JSON.parse(safeGet(STORAGE_KEY)||'{}'); } cat
 function saveUsers(u) { safeSet(STORAGE_KEY, JSON.stringify(u)); }
 function getSession() { try { return JSON.parse(sessGet(SESSION_KEY)||'null'); } catch { return null; } }
 
-async function doLogin() {
-  let hash = '', pwd = '';
-  const btn = document.querySelector('#login-input-area .auth-btn');
-  if (btn) { btn.disabled=true; btn.innerHTML='Шалгаж байна...'; }
+// async function doLogin → see auth-core script
 
-  try {
-    const users = getUsers();
-    let user = null, rlId = '', errMsg = '';
-
-    if (currentLoginMethod === 'phone') {
-      const phone = sanitize(document.getElementById('login-phone').value).replace(/\s/g,'');
-      pwd   = document.getElementById('login-pwd-phone').value;
-      if (!phone || !pwd) { errMsg = '⚠ Утасны дугаар болон нууц үгийг оруулна уу'; }
-      else {
-        rlId = 'phone:'+phone;
-        if (checkRateLimit(rlId)) {
-          hash = await sha256(pwd + phone);
-          user = users['phone:'+phone];
-          if (!user || (user.pwd !== hash && user.pwd !== pwd)) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу байна'; }
-        }
-      }
-    } else if (currentLoginMethod === 'email') {
-      const email = sanitize(document.getElementById('login-email').value).toLowerCase();
-      pwd   = document.getElementById('login-pwd-email').value;
-      if (!email || !pwd) { errMsg = '⚠ Имэйл болон нууц үгийг оруулна уу'; }
-      else {
-        rlId = 'email:'+email;
-        if (checkRateLimit(rlId)) {
-          hash = await sha256(pwd + email);
-          user = users['email:'+email];
-          if (!user || (user.pwd !== hash && user.pwd !== pwd)) { errMsg = '⚠ Имэйл хаяг эсвэл нууц үг буруу байна'; }
-        }
-      }
-    } else if (currentLoginMethod === 'facebook') {
-      const fb  = sanitize(document.getElementById('login-fb').value).replace('@','').toLowerCase();
-      pwd = document.getElementById('login-pwd-fb').value;
-      if (!fb || !pwd) { errMsg = '⚠ Facebook хаяг болон нууц үгийг оруулна уу'; }
-      else {
-        rlId = 'fb:'+fb;
-        if (checkRateLimit(rlId)) {
-          const allUsers = Object.values(users);
-          for (var u of allUsers) {
-            if (u.facebook && u.facebook.toLowerCase() === fb) {
-              const salt = u.phone || u.email || fb;
-              hash = await sha256(pwd + salt);
-              if (u.pwd === hash) { user = u; break; }
-            }
-          }
-          if (!user) { errMsg = '⚠ Facebook хаяг эсвэл нууц үг буруу байна'; }
-        }
-      }
-    }
-
-    if (errMsg) {
-      showToast(errMsg);
-    } else if (user) {
-      if (rlId) clearRateLimit(rlId);
-      // Auto-migrate plain pwd to hash
-          if (user.pwd !== hash) {
-            const users2 = getUsers();
-            const key2 = Object.keys(users2).find(k => users2[k]._token === user._token || (users2[k].phone === user.phone && users2[k].email === user.email));
-            if (key2) { users2[key2].pwd = hash; saveUsers(users2); }
-          }
-          const session = { ...user, _token: genToken(), _loginAt: Date.now() };
-      delete session.pwd;
-      sessSet(SESSION_KEY, JSON.stringify(session));
-      onLoggedIn(session);
-    }
-  } catch(err) {
-    showToast('⚠ Алдаа: ' + (err.message || err));
-    console.error('Login error:', err);
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = 'Нэвтрэх <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-    }
-  }
-}
-
-async function doRegister() {
-  const btn = document.querySelector('#view-register .auth-btn');
-  if (btn) { btn.disabled=true; btn.innerHTML='Бүртгэж байна...'; }
-
-  let success = false;
-  try {
-    const name  = sanitize(document.getElementById('reg-name').value);
-    const email = sanitize(document.getElementById('reg-email').value).toLowerCase();
-    const phone = sanitize(document.getElementById('reg-phone').value).replace(/\s/g,'');
-    const pwd   = document.getElementById('reg-pwd').value;
-    const fb    = sanitize(document.getElementById('reg-facebook').value).replace('@','');
-
-    if (!name)                   { showToast('⚠ Нэрээ оруулна уу'); }
-    else if (!phone && !email)   { showToast('⚠ Утасны дугаар эсвэл имэйл оруулна уу'); }
-    else if (!pwd || pwd.length < 6) { showToast('⚠ Нууц үг хамгийн багадаа 6 тэмдэгт байх ёстой'); }
-    else {
-      const users = getUsers();
-      if (phone && users['phone:'+phone]) { showToast('⚠ Энэ утасны дугаар бүртгэлтэй байна'); }
-      else if (email && users['email:'+email]) { showToast('⚠ Энэ имэйл хаяг бүртгэлтэй байна'); }
-      else {
-        const salt = phone || email;
-        const hash = await sha256(pwd + salt);
-        const user = { name, email, phone, pwd: hash, facebook: fb, createdAt: new Date().toISOString() };
-        if (phone) users['phone:'+phone] = user;
-        if (email) users['email:'+email] = user;
-        saveUsers(users);
-        const session = { ...user, _token: genToken(), _loginAt: Date.now() };
-        delete session.pwd;
-        sessSet(SESSION_KEY, JSON.stringify(session));
-        success = true;
-        showToast('✓ Бүртгэл амжилттай үүслээ!');
-        onLoggedIn(session);
-      }
-    }
-  } catch(err) {
-    showToast('⚠ Алдаа гарлаа: ' + (err.message || err));
-    console.error('Register error:', err);
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = 'Бүртгүүлэх <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-    }
-  }
-}
+// async function doRegister → see auth-core script
 
 function onLoggedIn(user) {
   document.getElementById('auth-overlay').style.display = 'none';
@@ -3285,15 +3146,7 @@ function onLoggedIn(user) {
   window._currentUser = user;
 }
 
-function doLogout() {
-  sessRemove(SESSION_KEY);
-  window._currentUser = null;
-  document.getElementById('user-profile-block').style.display = 'none';
-  document.getElementById('auth-overlay').style.display = 'flex';
-  document.querySelector('#page-dashboard .page-title').textContent = 'Улаан Creative-д тавтай морилно уу';
-  history.length = 0;
-  showToast('✓ Гарлаа');
-}
+// function doLogout → see auth-core script
 
 function showProfile() {
   const u = window._currentUser;
@@ -4655,66 +4508,11 @@ const _origNavigate = typeof navigate !== 'undefined' ? navigate : null;
 
 
 
-function showForgotPassword() {
-  document.getElementById('forgot-contact').value = '';
-  document.getElementById('forgot-modal').style.display = 'flex';
-}
+// function showForgotPassword → see auth-core script
 
-function submitForgotPassword() {
-  const contact = document.getElementById('forgot-contact').value.trim();
-  if (!contact) { showToast('⚠ Утас эсвэл имэйл оруулна уу'); return; }
-  
-  const users = getUsers();
-  const phone = contact.replace(/\s/g,'').replace('+976','');
-  const email = contact.toLowerCase();
-  
-  let foundUser = null;
-  let foundKey = null;
-  
-  // Search by phone or email
-  for (const [key, u] of Object.entries(users)) {
-    if ((u.phone && u.phone.replace(/\s/g,'') === phone) || 
-        (u.email && u.email.toLowerCase() === email)) {
-      foundUser = u;
-      foundKey = key;
-      break;
-    }
-  }
-  
-  if (!foundUser) {
-    showToast('⚠ Энэ утас/имэйлтэй бүртгэл олдсонгүй');
-    return;
-  }
-  
-  // Store reset request for owner to see in Owner Panel
-  const resetRequests = JSON.parse(safeGet('uc_reset_requests') || '[]');
-  resetRequests.unshift({
-    name: foundUser.name,
-    contact: contact,
-    key: foundKey,
-    time: new Date().toISOString(),
-    status: 'pending'
-  });
-  safeSet('uc_reset_requests', JSON.stringify(resetRequests.slice(0, 20)));
-  
-  document.getElementById('forgot-modal').style.display = 'none';
-  showToast('✓ Хүсэлт илгээгдлээ. Owner нууц үгийг шинэчилж өгнө.');
-}
+// function submitForgotPassword → see auth-core script
 
-function ownerResetPassword(userKey, newPwd) {
-  if (!isOwner) { showToast('⚠ Зөвхөн эзэмшигч'); return; }
-  if (!newPwd || newPwd.length < 6) { showToast('⚠ Нууц үг хамгийн багадаа 6 тэмдэгт'); return; }
-  
-  const users = getUsers();
-  if (!users[userKey]) { showToast('⚠ Хэрэглэгч олдсонгүй'); return; }
-  
-  sha256(newPwd + (users[userKey].phone || users[userKey].email || '')).then(hash => {
-    users[userKey].pwd = hash;
-    saveUsers(users);
-    showToast('✓ ' + users[userKey].name + '-ийн нууц үг шинэчлэгдлээ');
-    refreshOwnerData();
-  });
-}
+// function ownerResetPassword → see auth-core script
 
 
 function setMobileActive(id) {
@@ -4909,5 +4707,31 @@ function setMobileActive(id) {
   </div>
 </div>
 
+
+<!-- ═══ PROTECTED AUTH SCRIPT — DO NOT EDIT ═══ -->
+<script id="auth-core">
+window.sha256=async function(m){const b=new TextEncoder().encode(m),h=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('');};
+window.safeGet=function(k){try{return localStorage.getItem(k);}catch(e){return null;}};
+window.safeSet=function(k,v){try{localStorage.setItem(k,v);}catch(e){}};
+window.sessGet=function(k){try{return localStorage.getItem('sess_'+k);}catch(e){return null;}};
+window.sessSet=function(k,v){try{localStorage.setItem('sess_'+k,v);}catch(e){}};
+window.getUsers=function(){try{return JSON.parse(safeGet('uc_users')||'{}');}catch(e){return{};}};
+window.saveUsers=function(u){safeSet('uc_users',JSON.stringify(u));};
+window.getSession=function(){try{return JSON.parse(sessGet('uc_session')||'null');}catch(e){return null;}};
+window.genToken=function(){return Math.random().toString(36).substring(2)+Date.now().toString(36);};
+window.checkRateLimit=function(id){try{var d=JSON.parse(safeGet('uc_rl_'+id)||'{"count":0,"time":0}'),now=Date.now();if(now-d.time>900000){safeSet('uc_rl_'+id,JSON.stringify({count:1,time:now}));return false;}if(d.count>=5)return true;d.count++;safeSet('uc_rl_'+id,JSON.stringify(d));return false;}catch(e){return false;}};
+window.clearRateLimit=function(id){try{localStorage.removeItem('uc_rl_'+id);}catch(e){}};
+window.switchAuthView=function(view){document.querySelectorAll('.auth-view').forEach(function(el){el.style.display='none';});var el=document.getElementById('auth-'+view);if(el)el.style.display='block';};
+window.selectMethod=function(method){window.currentLoginMethod=method;document.querySelectorAll('.method-section').forEach(function(el){el.style.display='none';});var el=document.getElementById('method-'+method);if(el)el.style.display='block';document.querySelectorAll('.method-btn').forEach(function(btn){btn.classList.remove('active');});var btn=document.getElementById('method-btn-'+method);if(btn)btn.classList.add('active');};
+window.doLogin=async function(){var hash='',pwd='',user=null,rlId='';try{var method=window.currentLoginMethod||'phone';if(method==='phone'){var phone=(document.getElementById('login-phone')?.value||'').trim().replace(/\s/g,'');pwd=document.getElementById('login-pwd-phone')?.value||'';if(!phone||!pwd){showToast('⚠ Утас болон нууц үгээ оруулна уу');return;}rlId='login_'+phone;if(checkRateLimit(rlId)){showToast('⚠ Хэт олон оролдлого');return;}user=getUsers()['phone:'+phone];if(user)hash=await sha256(pwd+phone);if(!user||(user.pwd!==hash&&user.pwd!==pwd)){showToast('⚠ Утас эсвэл нууц үг буруу');return;};}else if(method==='email'){var email=(document.getElementById('login-email')?.value||'').trim().toLowerCase();pwd=document.getElementById('login-pwd-email')?.value||'';if(!email||!pwd){showToast('⚠ Имэйл болон нууц үгээ оруулна уу');return;}rlId='login_'+email.replace('@','_');if(checkRateLimit(rlId)){showToast('⚠ Хэт олон оролдлого');return;}user=getUsers()['email:'+email];if(user)hash=await sha256(pwd+email);if(!user||(user.pwd!==hash&&user.pwd!==pwd)){showToast('⚠ Имэйл эсвэл нууц үг буруу');return;};}clearRateLimit(rlId);var session=Object.assign({},user,{_token:genToken(),_loginAt:Date.now()});delete session.pwd;sessSet('uc_session',JSON.stringify(session));if(window.onLoggedIn)onLoggedIn(session);else document.getElementById('auth-overlay').style.display='none';}catch(e){console.error('Login error:',e.message);showToast('⚠ Алдаа: '+e.message);}};
+window.doRegister=async function(){try{var name=(document.getElementById('reg-name')?.value||'').trim(),phone=(document.getElementById('reg-phone')?.value||'').trim().replace(/\s/g,''),email=(document.getElementById('reg-email')?.value||'').trim().toLowerCase(),pwd=document.getElementById('reg-pwd')?.value||'';if(!name){showToast('⚠ Нэрээ оруулна уу');return;}if(!phone&&!email){showToast('⚠ Утас эсвэл имэйл оруулна уу');return;}if(!pwd||pwd.length<6){showToast('⚠ Нууц үг 6+ тэмдэгт');return;}var users=getUsers(),salt=phone||email,hash=await sha256(pwd+salt),key=phone?'phone:'+phone:'email:'+email;if(users[key]){showToast('⚠ Аль хэдийн бүртгэлтэй');return;}users[key]={name:name,phone:phone||'',email:email||'',pwd:hash,createdAt:new Date().toISOString()};saveUsers(users);var session=Object.assign({},users[key],{_token:genToken(),_loginAt:Date.now()});delete session.pwd;sessSet('uc_session',JSON.stringify(session));if(window.onLoggedIn)onLoggedIn(session);else document.getElementById('auth-overlay').style.display='none';showToast('✓ Бүртгэл амжилттай!');}catch(e){console.error('Register error:',e.message);showToast('⚠ Алдаа: '+e.message);}};
+window.doLogout=function(){try{localStorage.removeItem('sess_uc_session');}catch(e){}if(window.onLoggedOut)onLoggedOut();else window.location.reload();};
+window.showForgotPassword=function(){var m=document.getElementById('forgot-modal');if(m){var i=document.getElementById('forgot-contact');if(i)i.value='';m.style.display='flex';}};
+window.submitForgotPassword=function(){var contact=(document.getElementById('forgot-contact')?.value||'').trim();if(!contact){showToast('⚠ Утас эсвэл имэйл оруулна уу');return;}var users=getUsers(),phone=contact.replace(/\s/g,'').replace('+976',''),found=null,foundKey=null;for(var k in users){var u=users[k];if((u.phone&&u.phone===phone)||(u.email&&u.email.toLowerCase()===contact.toLowerCase())){found=u;foundKey=k;break;}}if(!found){showToast('⚠ Бүртгэл олдсонгүй');return;}var reqs=JSON.parse(safeGet('uc_reset_requests')||'[]');reqs.unshift({name:found.name,contact:contact,key:foundKey,time:new Date().toISOString()});safeSet('uc_reset_requests',JSON.stringify(reqs.slice(0,20)));var m=document.getElementById('forgot-modal');if(m)m.style.display='none';showToast('✓ Хүсэлт илгээгдлээ');};
+window.ownerResetPassword=async function(userKey,newPwd){if(!window.isOwner){showToast('⚠ Зөвхөн эзэмшигч');return;}if(!newPwd||newPwd.length<6){showToast('⚠ 6+ тэмдэгт');return;}var users=getUsers();if(!users[userKey]){showToast('⚠ Хэрэглэгч олдсонгүй');return;}var salt=users[userKey].phone||users[userKey].email||'';users[userKey].pwd=await sha256(newPwd+salt);saveUsers(users);showToast('✓ Нууц үг шинэчлэгдлээ');if(window.refreshOwnerData)refreshOwnerData();};
+window.saveApiKey=function(){showToast('✓ API key Vercel сервер дээр тохируулагдсан байна');};
+console.log('[AUTH-CORE] ✅ loaded: doLogin='+typeof window.doLogin+', doRegister='+typeof window.doRegister);
+</script>
+<!-- ═══ END PROTECTED AUTH SCRIPT ═══ -->
 </body>
 </html>
