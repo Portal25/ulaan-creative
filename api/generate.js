@@ -1,22 +1,30 @@
-// api/generate.js — Vercel Serverless Function
-// API key is stored in Vercel Environment Variables (never exposed to frontend)
-
 export default async function handler(req, res) {
-  // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Get API key from environment variable (set in Vercel dashboard)
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured on server' });
+  // Get and sanitize API key - remove any non-ASCII characters
+  const rawKey = process.env.ANTHROPIC_API_KEY || '';
+  const apiKey = rawKey.replace(/[^\x20-\x7E]/g, '').trim();
+  
+  if (!apiKey || !apiKey.startsWith('sk-ant-')) {
+    return res.status(500).json({ 
+      error: 'API key not configured. Set ANTHROPIC_API_KEY in Vercel Environment Variables.',
+      debug: 'key_length:' + apiKey.length
+    });
   }
 
   try {
-    const { model, max_tokens, system, messages, stream } = req.body;
+    const body = req.body;
+    
+    const anthropicBody = {
+      model: body.model || 'claude-haiku-4-5-20251001',
+      max_tokens: body.max_tokens || 2000,
+      messages: body.messages,
+    };
+    if (body.system) anthropicBody.system = body.system;
+    if (body.stream) anthropicBody.stream = body.stream;
 
-    // Forward request to Anthropic API
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -24,42 +32,35 @@ export default async function handler(req, res) {
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify({
-        model: model || 'claude-haiku-4-5-20251001',
-        max_tokens: max_tokens || 2000,
-        system: system,
-        messages: messages,
-        stream: stream || false,
-      }),
+      body: JSON.stringify(anthropicBody),
     });
 
+    const responseText = await response.text();
+
     if (!response.ok) {
-      const err = await response.json();
-      return res.status(response.status).json({ error: err.error?.message || 'Anthropic API error' });
+      let errData;
+      try { errData = JSON.parse(responseText); } catch(e) { errData = { message: responseText }; }
+      return res.status(response.status).json({ 
+        error: errData.error?.message || 'Anthropic API error',
+        status: response.status
+      });
     }
 
-    // Handle streaming response
-    if (stream) {
+    // Handle streaming
+    if (body.stream) {
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
-      
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        res.write(chunk);
-      }
-      res.end();
-    } else {
-      const data = await response.json();
-      return res.status(200).json(data);
+      res.write(responseText);
+      return res.end();
     }
+
+    let data;
+    try { data = JSON.parse(responseText); } catch(e) { data = { error: 'Invalid JSON from Anthropic' }; }
+    return res.status(200).json(data);
+
   } catch (error) {
-    console.error('Generate error:', error);
+    console.error('Generate error:', error.message);
     return res.status(500).json({ error: 'Server error: ' + error.message });
   }
 }
