@@ -1114,13 +1114,14 @@
   /* Chat dialog */
   .chat-dialog {
     position: fixed;
-    bottom: 96px; right: 28px;
-    width: 360px; max-width: calc(100vw - 40px);
-    height: 500px; max-height: calc(100vh - 140px);
-    background: #111;
-    border: 1px solid rgba(227,21,21,.3);
-    border-radius: 20px;
-    box-shadow: 0 16px 48px rgba(0,0,0,.7);
+    bottom: 80px; right: 20px;
+    width: 360px; max-width: calc(100vw - 32px);
+    height: 520px; max-height: calc(100vh - 120px);
+    background: #000;
+    border: 1px solid #1a1a1a;
+    border-top: 2px solid #cc0000;
+    border-radius: 0;
+    box-shadow: 0 20px 60px rgba(0,0,0,.9);
     display: flex; flex-direction: column;
     z-index: 7999;
     transform: scale(.9) translateY(20px);
@@ -1515,6 +1516,131 @@
     font-size: 20px;
     color: #333;
   }
+
+
+  /* ── Chat bubble styles - Netflix/Bloomberg ── */
+  .chat-msg { display: flex; flex-direction: column; margin-bottom: 12px; }
+  .chat-msg.user { align-items: flex-end; }
+  .chat-msg.bot { align-items: flex-start; }
+  .chat-msg .bubble {
+    max-width: 82%;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+  .chat-msg.user .bubble {
+    background: #cc0000;
+    color: #fff;
+    border-radius: 12px 12px 2px 12px;
+  }
+  .chat-msg.bot .bubble {
+    background: #111;
+    color: #e0e0e0;
+    border: 1px solid #1e1e1e;
+    border-radius: 2px 12px 12px 12px;
+  }
+  .chat-msg .msg-meta {
+    font-size: 9px;
+    color: #444;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+    display: flex;
+    gap: 6px;
+  }
+  .chat-msg.user .msg-meta { justify-content: flex-end; }
+
+  /* Chat messages container */
+  #chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+  }
+  #chat-messages::-webkit-scrollbar { width: 3px; }
+  #chat-messages::-webkit-scrollbar-thumb { background: #222; }
+
+  /* Quick buttons */
+  .chat-quick {
+    padding: 8px 12px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+  }
+  .quick-btn {
+    background: #111;
+    border: 1px solid #222;
+    color: #888;
+    padding: 5px 10px;
+    font-size: 10px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all .15s;
+    border-radius: 0;
+  }
+  .quick-btn:hover { background: #cc0000; color: #fff; border-color: #cc0000; }
+
+  /* Chat input area */
+  .chat-input-area {
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 12px;
+    gap: 8px;
+    background: #000;
+    border-top: 1px solid #1a1a1a;
+  }
+  .chat-input {
+    flex: 1;
+    background: #0d0d0d;
+    border: 1px solid #1e1e1e;
+    color: #e0e0e0;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: none;
+    max-height: 80px;
+    border-radius: 0;
+    outline: none;
+    line-height: 1.4;
+  }
+  .chat-input:focus { border-color: #333; }
+  .chat-send {
+    background: #cc0000;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    flex-shrink: 0;
+    transition: background .15s;
+  }
+  .chat-send:hover { background: #ee0000; }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #111;
+    border: 1px solid #1e1e1e;
+    width: fit-content;
+    border-radius: 2px 12px 12px 12px;
+  }
+  .typing-dot {
+    width: 6px; height: 6px;
+    background: #555;
+    border-radius: 50%;
+    animation: typingBounce 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: .2s; }
+  .typing-dot:nth-child(3) { animation-delay: .4s; }
+  @keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
 
 </style>
 </head>
@@ -3720,7 +3846,7 @@ function toggleChat() {
   }
 }
 
-function appendBotMsg(text) {
+function appendBotMsg(text, modelUsed, toolUsed) {
   const msgs = document.getElementById('chat-messages');
   const initPlaceholder = document.getElementById('chat-init-placeholder');
   if (initPlaceholder) initPlaceholder.remove();
@@ -3746,6 +3872,18 @@ function appendBotMsg(text) {
       <div class="msg-bubble">${htmlText}</div>
       <div class="msg-time">${now}</div>
     </div>`;
+
+  // Show model badge in header
+  const badge = document.getElementById('chat-model-badge');
+  if (badge && modelUsed) {
+    const shortModel = modelUsed.includes('haiku') ? 'HAIKU' : 
+                       modelUsed.includes('sonnet') ? 'SONNET' : 
+                       modelUsed.includes('opus') ? 'OPUS' : 'AI';
+    badge.textContent = shortModel;
+    badge.style.color = modelUsed.includes('opus') ? '#cc0000' : 
+                        modelUsed.includes('sonnet') ? '#888' : '#555';
+  }
+
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
 }
@@ -3783,76 +3921,63 @@ function removeTyping() {
 async function sendChat() {
   if (chatBusy) return;
   const input = document.getElementById('chat-input');
-  const text = input.value.trim();
+  const text = input ? input.value.trim() : '';
   if (!text) return;
 
-  // API key шалгах
-  const apiKey = safeGet('uc_api_key');
-  if (!apiKey) {
-    input.value = '';
-    appendUserMsg(text);
-    removeTyping();
-    appendBotMsg('⚙️ AI ажиллуулахад API key шаардлагатай.\n\nЗүүн цэснээс <b>⚙️ API Тохиргоо</b> дарж key оруулна уу.\n<a href="#" onclick="goToSettings();" style="color:var(--gold);">→ API Тохиргоо нээх</a>');
-    return;
-  }
+  // Clear input
+  if (input) { input.value = ''; input.style.height = 'auto'; }
 
-  input.value = '';
-  input.style.height = 'auto';
-  const quickEl = document.getElementById('chat-quick');
-  if (quickEl) quickEl.style.display = 'none';
+  // Add user message
   appendUserMsg(text);
   chatHistory.push({ role: 'user', content: text });
 
+  // Hide quick buttons
+  const qEl = document.getElementById('chat-quick');
+  if (qEl) qEl.style.display = 'none';
+
   chatBusy = true;
-  const sendBtn = document.getElementById('chat-send-btn');
-  if (sendBtn) sendBtn.disabled = true;
   showTyping();
 
-  // 30 секундийн timeout
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 30000);
 
   try {
-    const resp = await fetch('/api/generate', {
+    // Use /api/chat for smart model selection
+    const resp = await fetch('/api/chat', {
       method: 'POST',
       signal: controller.signal,
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 500,
-        system: CHAT_SYSTEM,
-        messages: chatHistory.slice(-8)
+        messages: chatHistory.slice(-10),
+        tool: window.currentTool || ''
       })
     });
     clearTimeout(timeout);
 
     if (!resp.ok) {
       const errData = await resp.json().catch(() => ({}));
-      const errMsg = errData?.error?.message || ('HTTP ' + resp.status);
-      throw new Error(errMsg);
+      throw new Error(errData.error || 'API алдаа ' + resp.status);
     }
 
     const data = await resp.json();
-    const reply = data.content?.[0]?.text || 'Уучлаарай, хоосон хариулт ирлээ.';
+    const reply = data.message?.content || '⚠ Хариулт ирсэнгүй';
+    const modelUsed = data.message?.modelUsed || '';
+    const toolUsed = data.message?.toolUsed || '';
+
     chatHistory.push({ role: 'assistant', content: reply });
     removeTyping();
-    appendBotMsg(reply);
+    appendBotMsg(reply, modelUsed, toolUsed);
+
   } catch(e) {
     clearTimeout(timeout);
     removeTyping();
     if (e.name === 'AbortError') {
-      appendBotMsg('⏱ Хариулт хэтэрхий удаав (30с). Дахин оролдоно уу.');
-    } else if (e.message.includes('401') || e.message.includes('authentication')) {
-      appendBotMsg('🔑 API key буруу байна.\n<a href="#" onclick="goToSettings();" style="color:var(--gold);">→ API Тохиргоо засах</a>');
+      appendBotMsg('⏱ Хариулт хэтэрхий удаав. Дахин оролдоно уу.');
     } else {
       appendBotMsg('⚠ Алдаа: ' + e.message);
     }
   } finally {
     chatBusy = false;
-    if (sendBtn) sendBtn.disabled = false;
   }
 }
 
@@ -4662,24 +4787,26 @@ function setMobileActive(id) {
   </button>
 </div>
 
-<!-- Chat dialog -->
+<!-- Chat dialog — Netflix/Bloomberg style -->
 <div class="chat-dialog" id="chat-dialog">
   <div class="chat-header">
-    <div class="chat-avatar">🤖</div>
-    <div class="chat-header-info">
-      <div class="chat-header-name">UC AI Туслагч</div>
-      <div class="chat-header-status"><div class="chat-status-dot"></div> Онлайн</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:8px;height:8px;background:#cc0000;"></div>
+      <div class="chat-header-name" style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">ULAAN AI</div>
     </div>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="font-size:9px;color:#666;letter-spacing:0.06em;" id="chat-model-badge">HAIKU</div>
+      <button class="chat-close" onclick="toggleChat()" style="background:none;border:none;color:#666;cursor:pointer;font-size:16px;padding:0;">✕</button>
+    </div>
   </div>
 
   <div class="chat-messages" id="chat-messages"></div>
 
   <div class="chat-quick" id="chat-quick">
-    <button class="quick-btn" onclick="sendQuick('Яаж ашиглах вэ?')">Яаж ашиглах вэ?</button>
-    <button class="quick-btn" onclick="sendQuick('Social Media пост бичүүл')">📱 Пост бичүүл</button>
+    <button class="quick-btn" onclick="sendQuick('Маркетингийн стратеги боловсруул')">📊 Стратеги</button>
+    <button class="quick-btn" onclick="sendQuick('Instagram пост бичүүл')">📱 Instagram</button>
     <button class="quick-btn" onclick="sendQuick('Реклам текст хэрэгтэй')">🎯 Реклам</button>
-    <button class="quick-btn" onclick="sendQuick('Agent юу вэ?')">🤖 Agent гэж юу?</button>
+    <button class="quick-btn" onclick="sendQuick('Брэндийн хэл найруулга')">💎 Брэнд</button>
   </div>
 
   <div class="chat-input-area">
