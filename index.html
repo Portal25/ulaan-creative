@@ -1941,6 +1941,29 @@
 <script>
 window.onerror = function(msg, src, line, col, err) { console.log("UC Error:", msg, line); alert("JS Алдаа: " + msg + " (мөр: " + line + ")"); return true; };
 let apiKey = '';
+
+function getUserHistoryKey() {
+  try {
+    const s = JSON.parse(safeGet(SESSION_KEY) || '{}');
+    return s._token ? 'uc_history_' + s._token.substring(0, 16) : null;
+  } catch { return null; }
+}
+function saveUserHistory() {
+  const key = getUserHistoryKey();
+  if (!key) return;
+  try { safeSet(key, JSON.stringify(history.slice(0, 50))); } catch(e) {}
+}
+function loadUserHistory() {
+  const key = getUserHistoryKey();
+  if (!key) return;
+  try {
+    const saved = JSON.parse(safeGet(key) || '[]');
+    if (saved.length) {
+      history.length = 0;
+      saved.forEach(h => history.push(h));
+    }
+  } catch(e) {}
+}
 // ===== STATE =====
 // ===== STATE =====
 let currentTool = 'social';
@@ -2580,6 +2603,7 @@ function addToHistory(toolName, content) {
     <div class="history-time">${time}</div>
   `;
   list.insertBefore(item, list.firstChild);
+  saveUserHistory();
 }
 
 function showToast(msg) {
@@ -3005,6 +3029,7 @@ function doLogout() {
   document.getElementById('user-profile-block').style.display = 'none';
   document.getElementById('auth-overlay').style.display = 'flex';
   document.querySelector('#page-dashboard .page-title').textContent = 'Улаан Creative-д тавтай морилно уу';
+  history.length = 0;
   showToast('✓ Гарлаа');
 }
 
