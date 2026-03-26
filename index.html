@@ -2912,7 +2912,8 @@ async function doLogin() {
         if (checkRateLimit(rlId)) {
           const hash = await sha256(pwd + phone);
           user = users['phone:'+phone];
-          if (!user || user.pwd !== hash) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу байна'; }
+          const pwdMatch = user && (user.pwd === hash || user.pwd === pwd);
+          if (!pwdMatch || !user) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'email') {
@@ -2924,7 +2925,8 @@ async function doLogin() {
         if (checkRateLimit(rlId)) {
           const hash = await sha256(pwd + email);
           user = users['email:'+email];
-          if (!user || user.pwd !== hash) { errMsg = '⚠ Имэйл хаяг эсвэл нууц үг буруу байна'; }
+          const pwdMatch = user && (user.pwd === hash || user.pwd === pwd);
+          if (!pwdMatch || !user) { errMsg = '⚠ Имэйл хаяг эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'facebook') {
@@ -2951,7 +2953,13 @@ async function doLogin() {
       showToast(errMsg);
     } else if (user) {
       if (rlId) clearRateLimit(rlId);
-      const session = { ...user, _token: genToken(), _loginAt: Date.now() };
+      // Auto-migrate plain pwd to hash
+          if (user.pwd !== hash) {
+            const users2 = getUsers();
+            const key2 = Object.keys(users2).find(k => users2[k]._token === user._token || (users2[k].phone === user.phone && users2[k].email === user.email));
+            if (key2) { users2[key2].pwd = hash; saveUsers(users2); }
+          }
+          const session = { ...user, _token: genToken(), _loginAt: Date.now() };
       delete session.pwd;
       sessSet(SESSION_KEY, JSON.stringify(session));
       onLoggedIn(session);
