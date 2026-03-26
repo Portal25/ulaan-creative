@@ -2100,14 +2100,22 @@
       <div class="panel" style="margin-bottom:24px;">
         <div class="panel-header">🔑 ANTHROPIC API KEY</div>
         <div class="panel-body">
-          <div>
-            <label>API KEY</label>
-            <input type="password" id="api-key-input" placeholder="sk-ant-..." style="font-family:'Courier New',monospace;">
+          <div style="background:var(--surface2);border:1px solid var(--border2);padding:14px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <span style="color:var(--green);font-size:20px;">✓</span>
+              <div>
+                <div style="font-size:12px;font-weight:700;letter-spacing:0.05em;">API KEY СЕРВЕРТ ХАДГАЛАГДСАН</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px;">Vercel → ANTHROPIC_API_KEY</div>
+              </div>
+            </div>
+            <div style="font-size:10px;color:var(--muted);line-height:1.8;border-top:1px solid var(--border);padding-top:8px;">
+              🔒 API key frontend дээр харагдахгүй<br>
+              🔄 Бүх AI дуудлага /api/generate ашиглана<br>
+              ⚙️ Vercel dashboard → Settings → Environment Variables → ANTHROPIC_API_KEY
+            </div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
-            <button class="btn btn-primary" onclick="saveApiKey()">💾 Хадгалах</button>
-            <button class="btn btn-outline" onclick="testApiKey()">🧪 Тест</button>
-          </div>
+        </div>
+      </div>
         </div>
       </div>
 
@@ -2475,7 +2483,8 @@ function navigate(page) {
   }
 }
 
-function saveApiKey() {
+function saveApiKey() { showToast("✓ API key server дээр тохируулагдсан байна"); return; // disabled - key is in Vercel env
+  if(false) {
   if (!isOwner) { showToast('⚠ Зөвхөн эзэмшигч API key тохируулна'); return; }
   const key = document.getElementById('api-key-input').value.trim();
   const status = document.getElementById('api-key-status');
@@ -2521,13 +2530,10 @@ async function testApiKey() {
   status.style.color = 'var(--gold)';
   status.textContent = '⏳ Шалгаж байна...';
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch('/api/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 10, messages: [{ role: 'user', content: 'hi' }] })
     });
@@ -2701,7 +2707,7 @@ async function generateFromPhoto() {
   const mediaType = document.getElementById('gen-btn')._mediaType || 'image/jpeg';
 
   const apiKey = safeGet('uc_api_key');
-  apiKey = safeGet('uc_api_key') || '';
+  apiKey = '';
   if (!apiKey) { showToast('⚠ API key тохируулагдаагүй. Эзэмшигч тохируулах болно.'); return; }
 
   isGenerating = true;
@@ -2723,13 +2729,10 @@ async function generateFromPhoto() {
 Монгол хэлээр бичнэ үү.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': (safeGet('uc_api_key') || ''),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
@@ -2825,10 +2828,10 @@ async function generate() {
     const controller2 = new AbortController();
     const timeoutId = setTimeout(() => controller2.abort(), 60000);
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/generate', {
       method: 'POST',
       signal: controller2.signal,
-      headers: { 'Content-Type': 'application/json', 'x-api-key': (safeGet('uc_api_key') || ''), 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': (''), 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
@@ -3505,9 +3508,9 @@ async function runAgent(id, auto = false) {
     const userCtx = user ? `Хэрэглэгч: ${user.name}${user.facebook ? ', Facebook: @'+user.facebook : ''}` : '';
     const fullPrompt = agent.prompt + (userCtx ? '\n\n' + userCtx : '') + '\n\nМонгол хэлээр хариул.';
 
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('/api/generate', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': safeGet('uc_api_key') || '', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': '', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -4024,14 +4027,12 @@ async function sendChat() {
   const timeout = setTimeout(() => controller.abort(), 30000);
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('/api/generate', {
       method: 'POST',
       signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': (safeGet('uc_api_key') || ''),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
@@ -4293,7 +4294,7 @@ async function translateMarketingArticle(idx) {
   if (!item) return;
 
   const apiKey = safeGet('uc_api_key');
-  apiKey = safeGet('uc_api_key') || '';
+  apiKey = '';
   if (!apiKey) { showToast('⚠ API key тохируулагдаагүй. Эзэмшигч тохируулах болно.'); return; }
 
   btn.disabled = true;
@@ -4303,13 +4304,10 @@ async function translateMarketingArticle(idx) {
   const text = item.title + '\n\n' + stripHtml(item.description || item.content || '');
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch('/api/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': (safeGet('uc_api_key') || ''),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
@@ -4448,7 +4446,7 @@ async function translateFinanceArticle(idx) {
   if (!item) return;
 
   const apiKey = safeGet('uc_api_key');
-  apiKey = safeGet('uc_api_key') || '';
+  apiKey = '';
   if (!apiKey) { showToast('⚠ API key тохируулагдаагүй. Эзэмшигч тохируулах болно.'); return; }
 
   btn.disabled = true;
@@ -4458,13 +4456,10 @@ async function translateFinanceArticle(idx) {
   const text = item.title + '\n\n' + stripHtml(item.description || item.content || '');
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch('/api/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': (safeGet('uc_api_key') || ''),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
