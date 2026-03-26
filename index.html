@@ -2488,78 +2488,6 @@ function navigate(page) {
 }
 
 function saveApiKey() { showToast("✓ API key server дээр тохируулагдсан байна"); return; }
-function saveApiKey_disabled() { if(false) {
-  if (!isOwner) { showToast('⚠ Зөвхөн эзэмшигч API key тохируулна'); return; }
-  const key = document.getElementById('api-key-input').value.trim();
-  const status = document.getElementById('api-key-status');
-  if (!key) {
-    status.style.display = 'block';
-    status.style.background = 'rgba(224,92,92,.15)';
-    status.style.color = '#e05c5c';
-    status.textContent = '⚠ API key оруулна уу';
-    return;
-  }
-  if (key.length < 50) {
-    showToast('⚠ API key хэтэрхий богино байна. Жинхэнэ key оруулна уу.');
-    return;
-  }
-  if (!key.startsWith('sk-ant-')) {
-    status.style.display = 'block';
-    status.style.background = 'rgba(224,92,92,.15)';
-    status.style.color = '#e05c5c';
-    status.textContent = '⚠ API key sk-ant- гэж эхлэх ёстой';
-    return;
-  }
-  safeSet('uc_api_key', key);
-  apiKey = key;
-  status.style.display = 'block';
-  status.style.background = 'rgba(92,224,130,.12)';
-  status.style.color = '#5ce082';
-  status.textContent = '✓ API key хадгалагдлаа! AI хэрэгслүүд ажиллана.';
-  showToast('✓ API key хадгалагдлаа!');
-}
-
-async function testApiKey() {
-  const key = document.getElementById('api-key-input').value.trim() || safeGet('uc_api_key');
-  const status = document.getElementById('api-key-status');
-  if (!key) {
-    status.style.display = 'block';
-    status.style.background = 'rgba(224,92,92,.15)';
-    status.style.color = '#e05c5c';
-    status.textContent = '⚠ Эхлээд API key оруулна уу';
-    return;
-  }
-  status.style.display = 'block';
-  status.style.background = 'rgba(227,21,21,.1)';
-  status.style.color = 'var(--gold)';
-  status.textContent = '⏳ Шалгаж байна...';
-  try {
-    const r = await fetch('/api/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 10, messages: [{ role: 'user', content: 'hi' }] })
-    });
-    const d = await r.json();
-    if (d.content) {
-      status.style.background = 'rgba(92,224,130,.12)';
-      status.style.color = '#5ce082';
-      status.textContent = '✓ API key зөв байна — AI ажиллана!';
-      safeSet('uc_api_key', key);
-    } else {
-      status.style.background = 'rgba(224,92,92,.15)';
-      status.style.color = '#e05c5c';
-      status.textContent = '✗ ' + (d.error?.message || 'API key буруу байна');
-    }
-  } catch(e) {
-    status.style.background = 'rgba(224,92,92,.15)';
-    status.style.color = '#e05c5c';
-    status.textContent = '✗ Холболтын алдаа: ' + e.message;
-  }
-}
-
-
 function openTool(toolId) {
   currentTool = toolId;
 
@@ -4793,7 +4721,6 @@ function setMobileActive(id) {
   document.querySelectorAll('.mbn-item').forEach(el => el.classList.remove('active'));
   const el = document.getElementById(id);
   if (el) el.classList.add('active');
-}
 }
 </script>
 
