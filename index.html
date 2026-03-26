@@ -24,7 +24,7 @@
 <body>
 <div id="root"></div>
 
-<script type="text/babel">
+<script type="text/babel" data-presets="react" data-plugins="transform-modules-umd">
 const { useState, useEffect, useRef } = React;
 
 // ─── DATA ───────────────────────────────────────────────────────
@@ -428,7 +428,7 @@ function ChatPanel({ onClose }) {
 }
 
 // ─── MAIN APP ────────────────────────────────────────────────────
-export default function UlaanApp() {
+function UlaanApp() {
   const [session, setSession] = useState(null);
   const [activeNav, setActiveNav] = useState("home");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -586,6 +586,15 @@ export default function UlaanApp() {
     </div>
   );
 }
+
+
+// Register and mount
+window.__UlaanApp = UlaanApp;
+const rootEl = document.getElementById('root');
+if (rootEl && window.ReactDOM) {
+  const root = ReactDOM.createRoot(rootEl);
+  root.render(React.createElement(UlaanApp));
+}
 </script>
 
 <script>
@@ -639,9 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(el); return el;
   });
 
-  // Mount React app
-  const root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(React.createElement(window.__UlaanApp || (() => React.createElement('div', null, 'Loading...'))));
+  // React mounted by babel script
 });
 </script>
 
