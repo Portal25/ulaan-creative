@@ -2912,8 +2912,7 @@ async function doLogin() {
         if (checkRateLimit(rlId)) {
           const hash = await sha256(pwd + phone);
           user = users['phone:'+phone];
-          const pwdMatch = user && (user.pwd === hash || user.pwd === pwd);
-          if (!pwdMatch || !user) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу байна'; }
+          if (!user || (user.pwd !== hash && user.pwd !== pwd)) { errMsg = '⚠ Утасны дугаар эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'email') {
@@ -2925,8 +2924,7 @@ async function doLogin() {
         if (checkRateLimit(rlId)) {
           const hash = await sha256(pwd + email);
           user = users['email:'+email];
-          const pwdMatch = user && (user.pwd === hash || user.pwd === pwd);
-          if (!pwdMatch || !user) { errMsg = '⚠ Имэйл хаяг эсвэл нууц үг буруу байна'; }
+          if (!user || (user.pwd !== hash && user.pwd !== pwd)) { errMsg = '⚠ Имэйл хаяг эсвэл нууц үг буруу байна'; }
         }
       }
     } else if (currentLoginMethod === 'facebook') {
