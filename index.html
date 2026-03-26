@@ -2562,15 +2562,16 @@ function copyOutput() {
 }
 
 function addToHistory(toolName, content) {
-  const preview = content.slice(0, 80) + '...';
+  const list = document.getElementById('history-list') || document.querySelector('.history-list');
+  if (!list) return;
+  const preview = content.replace(/<[^>]*>/g, '').substring(0, 60) + '...';
   const time = new Date().toLocaleTimeString('mn-MN', { hour: '2-digit', minute: '2-digit' });
   history.unshift({ toolName, preview, time, content });
 
-  const list = document.getElementById('history-list');
-  if (list.querySelector('div[style]')) list.innerHTML = '';
-
   const item = document.createElement('div');
   item.className = 'history-item';
+  item.onclick = () => { const oa = document.getElementById('output-area'); if (oa) oa.innerHTML = content; };
+
   item.innerHTML = `
     <div>
       <div class="history-type">${toolName}</div>
