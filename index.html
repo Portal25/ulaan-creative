@@ -1982,18 +1982,22 @@ const TOOLS = {
       { id: 'platform', label: 'Платформ', type: 'select', options: ['Instagram', 'Facebook', 'Twitter/X', 'LinkedIn', 'TikTok'] },
       { id: 'tone', label: 'Өнгө аяс', type: 'select', options: ['Найрсаг, хөгжилтэй', 'Мэргэжлийн, итгэлтэй', 'Урам зориг өгөх', 'Яаралтай', 'Мэдлэг олгох'] },
     ],
-    prompt: (vals) => `You are an expert social media marketer. Write a compelling ${vals.platform} post for "${vals.brand}".
-Topic: ${vals.topic}
-Tone: ${vals.tone}
+    prompt: (vals) => `Та бол Монгол хэлний мэргэжилтэн маркетингийн зохиолч. Монгол хэлний дүрэм, найруулгыг бүрэн дагаж, ${vals.platform} платформд зориулсан постыг бич.
 
-Write in Mongolian language. Include:
-- Eye-catching opening line
-- Main message
-- Relevant emojis
-- 5-8 hashtags
-- Call-to-action
+Брэнд: ${vals.brand}
+Сэдэв: ${vals.topic}
+Өнгө аяс: ${vals.tone}
 
-Make it engaging and optimized for ${vals.platform} algorithm.`
+ЧУХАЛ ШААРДЛАГА:
+- Зөвхөн ЦЭВЭР МОНГОЛ хэлээр бич (орос, англи үг хольж хэрэглэхгүй)
+- Монгол хэлний дүрэм, үгийн сан, найруулгыг зөв хэрэглэ
+- Байгалийн жамаар урсах, хиймэл сонсогдохгүй текст бий болго
+- Эхэнд анхаарал татахуйц өгүүлбэр
+- Үндсэн мессежийг тодорхой илэрхийл
+- Холбогдох emoji хэрэглэ (3-5 ширхэг)
+- 5-8 хэштэг нэмэ
+- Дуудлага хийхэд уриалах (CTA)
+- ${vals.platform}-ийн алгоритмд тохирсон байх`
   },
   ads: {
     name: 'Зар Сурталчилгааны Текст',
@@ -2005,19 +2009,19 @@ Make it engaging and optimized for ${vals.platform} algorithm.`
       { id: 'usp', label: 'Давуу тал (USP)', type: 'textarea', placeholder: 'жишээ: 30 хоногт 5 кг хасна, мөнгийн баталгаатай' },
       { id: 'platform', label: 'Реклам платформ', type: 'select', options: ['Facebook/Instagram Ads', 'Google Ads', 'TikTok Ads', 'YouTube Ads'] },
     ],
-    prompt: (vals) => `You are a world-class direct response copywriter. Write high-converting ad copy for ${vals.platform}.
+    prompt: (vals) => `Та бол Монгол хэлний шилдэг маркетингийн зохиолч. Дараах бүтээгдэхүүн/үйлчилгээний ${vals.platform} зарын текстийг ЦЭВЭР МОНГОЛ хэлээр бич.
 
-Product/Service: ${vals.product}
-Target Audience: ${vals.audience}
-Unique Selling Point: ${vals.usp}
+Бүтээгдэхүүн/Үйлчилгээ: ${vals.product}
+Зорилтот үзэгчид: ${vals.audience}
+Онцлог давуу тал: ${vals.usp}
 
-Write in Mongolian language. Provide:
-1. HEADLINE (attention-grabbing, 5-10 words)
-2. PRIMARY TEXT (1-2 paragraphs, benefit-focused)
-3. CTA Button text (3-5 words)
-4. Alternative headline variations (3 options)
+Дараах бүтцээр бич (ЗӨВХӨН МОНГОЛ ХЭЛЭЭР):
+1. ГАРЧИГ — анхаарал татахуйц, 5-10 үг, хүчтэй
+2. ҮНДСЭН ТЕКСТ — 1-2 догол мөр, ашиг тусыг тодотго
+3. ДУУДЛАГА ХИЙХ ТОВЧ — 3-5 үг (жишээ: "Одоо авах", "Дэлгэрэнгүй үзэх")
+4. ГАРЧИГИЙН 3 ХУВИЛБАР — өөр өнцгөөс
 
-Focus on pain points, emotional triggers, and clear value proposition.`
+Монгол хэрэглэгчийн сэтгэл зүй, өвдөлтийн цэг, үнэ цэнийн саналыг тодотго.`
   },
   email: {
     name: 'Имэйл Кампейн Writer',
@@ -2029,20 +2033,21 @@ Focus on pain points, emotional triggers, and clear value proposition.`
       { id: 'offer', label: 'Санал / Контент', type: 'textarea', placeholder: 'жишээ: Хаврын хямдрал 30% хүртэл, зөвхөн 48 цаг' },
       { id: 'audience', label: 'Хүлээн авагчид', type: 'input', placeholder: 'жишээ: Байнгын худалдан авагчид' },
     ],
-    prompt: (vals) => `You are an expert email marketer. Write a complete email campaign for "${vals.brand}".
+    prompt: (vals) => `Та бол Монгол хэлний мэргэжилтэн имэйл маркетер. Дараах имэйл кампанийн агуулгыг ЦЭВЭР МОНГОЛ хэлээр бич.
 
-Goal: ${vals.goal}
-Offer/Content: ${vals.offer}
-Recipient: ${vals.audience}
+Брэнд: ${vals.brand}
+Зорилго: ${vals.goal}
+Санал / Контент: ${vals.offer}
+Хүлээн авагчид: ${vals.audience}
 
-Write in Mongolian language. Include:
-1. SUBJECT LINE (curiosity-inducing, under 50 chars)
-2. PREVIEW TEXT (complements subject line)
-3. EMAIL BODY (with greeting, hook, value, offer, urgency)
-4. CTA Button text
-5. P.S. line (often gets read most)
+ЧУХАЛ ШААРДЛАГА — ЗӨВХӨН МОНГОЛ ХЭЛЭЭР:
+1. ГАРЧИГ (Subject line) — сониуч байдлыг төрүүлэхүйц, 50 тэмдэгтээс бага
+2. УРЬДЧИЛСАН ТЕКСТ (Preview text) — гарчигтай нөхцөлдсөн, 90 тэмдэгтээс бага
+3. ҮНДСЭН ТЕКСТ — мэндчилгээ, анхаарал татах эхлэл, үнэ цэн, санал, яаралтай байдал
+4. ДУУДЛАГА ХИЙХ ТОВЧ — тодорхой, хүчтэй үйл үг (жишээ: "Одоо захиалах", "Дэлгэрэнгүй үзэх")
+5. P.S. мөр — ихэвчлэн хамгийн их уншигддаг хэсэг
 
-Make it personal, scannable, and conversion-focused.`
+Монгол уншигчид ойлгомжтой, байгалийн найруулгатай, хөрвөлт өндөртэй имэйл бич.`
   },
   seo: {
     name: 'SEO Контент Writer',
@@ -2054,23 +2059,22 @@ Make it personal, scannable, and conversion-focused.`
       { id: 'audience', label: 'Уншигч', type: 'input', placeholder: 'жишээ: Эхлэгч дасгалжигчид' },
       { id: 'length', label: 'Урт', type: 'select', options: ['Богино (300-500 үг)', 'Дунд (500-800 үг)', 'Урт (800-1200 үг)'] },
     ],
-    prompt: (vals) => `You are an expert SEO content writer. Write a blog post optimized for search engines.
+    prompt: (vals) => `Та бол Монгол хэлний мэргэжилтэн SEO контент зохиолч. Дараах блог нийтлэлийг ЦЭВЭР МОНГОЛ хэлээр бич.
 
-Target Keyword: ${vals.keyword}
-Topic: ${vals.topic}
-Target Audience: ${vals.audience}
-Length: ${vals.length}
+Гол түлхүүр үг: ${vals.keyword}
+Нийтлэлийн сэдэв: ${vals.topic}
+Уншигч: ${vals.audience}
+Урт: ${vals.length}
 
-Write in Mongolian language. Include:
-- SEO-optimized title with keyword
-- Introduction with hook
-- H2 subheadings (3-5 sections)
-- Natural keyword placement
-- Bullet points for scannability
-- Meta description (under 160 chars)
-- Internal/external link suggestions
-
-Make it genuinely helpful and Google E-E-A-T compliant.`
+ЧУХАЛ ШААРДЛАГА — ЗӨВХӨН МОНГОЛ ХЭЛЭЭР:
+- Монгол хэлний дүрэм, найруулгыг бүрэн зөв хэрэглэ
+- Гарчиг (H1) — гол түлхүүр үгийг агуулсан, анхаарал татахуйц
+- Оршил — уншигчийг татах 2-3 өгүүлбэр
+- Дэд гарчгууд (H2, H3) — тодорхой, бүтэцтэй
+- Үндсэн агуулга — дэлгэрэнгүй, хэрэгтэй мэдээлэл
+- Дүгнэлт — үйл хөдлөлд уриалах
+- Гол түлхүүр үгийг байгалийн жамаар 3-5 удаа хэрэглэ
+- Монгол уншигчдад хамааралтай жишээ, мэдээлэл ашигла`
   },
   brand: {
     name: 'Брэндийн Хэл Найруулга Builder',
@@ -2082,21 +2086,22 @@ Make it genuinely helpful and Google E-E-A-T compliant.`
       { id: 'audience', label: 'Зорилтот үзэгчид', type: 'input', placeholder: 'жишээ: 20-35 настай хотын залуучууд' },
       { id: 'values', label: 'Брэндийн үнэт зүйлс', type: 'input', placeholder: 'жишээ: Өвөрмөц байдал, тогтвортой байдал, эх соёл' },
     ],
-    prompt: (vals) => `You are a top brand strategist. Create a comprehensive Брэндийн Хэл Найруулга Guide for "${vals.brand}".
+    prompt: (vals) => `Та бол Монгол зах зээлийн мэргэжилтэн брэнд стратегич. Дараах брэндийн хэл найруулгын гарын авлагыг ЦЭВЭР МОНГОЛ хэлээр бич.
 
-Business: ${vals.business}
-Target Audience: ${vals.audience}
-Core Values: ${vals.values}
+Брэнд нэр: ${vals.brand}
+Салбар: ${vals.industry}
+Зорилтот үзэгчид: ${vals.audience}
+Брэндийн үнэт зүйл: ${vals.values}
 
-Write in Mongolian language. Include:
-1. BRAND PERSONALITY (5 adjectives with explanation)
-2. TONE OF VOICE (how to communicate)
-3. MESSAGING PILLARS (3-4 key messages)
-4. DO's and DON'Ts (language guidelines)
-5. SAMPLE MESSAGES (5 example posts/lines in the brand voice)
-6. KEY PHRASES to use/avoid
+ЧУХАЛ ШААРДЛАГА — ЗӨВХӨН МОНГОЛ ХЭЛЭЭР:
+1. БРЭНДИЙН ХЭЛНИЙ ДҮРЭМ — өнгө аяс, хэв маяг
+2. ҮНДСЭН МЕССЕЖ — брэндийн гол санааг 1-2 өгүүлбэрт
+3. ЗОРИЛТОТ ҮЗЭГЧИД — хэн тэд, юу хайдаг
+4. ХЭРЭГЛЭХ ҮГИЙН САН — зөвлөмжтэй болон хориглосон үгс
+5. ӨНГӨ АЯС — хэрхэн ярих, бичих арга
+6. ЖИШЭЭ ӨГҮҮЛБЭРҮҮД — янз бүрийн нөхцөл байдалд
 
-Make it practical and easy to apply across all content.`
+Монгол хэрэглэгчийн сэтгэлгээ, соёлд нийцсэн брэнд дуу хоолой бий болго.`
   },
   ideas: {
     name: 'Кампейний Стратеги',
@@ -2108,7 +2113,23 @@ Make it practical and easy to apply across all content.`
       { id: 'budget', label: 'Төсвийн хэмжээ', type: 'select', options: ['Бага (< 500К ₮)', 'Дунд (500К–2М ₮)', 'Том (2М–10М ₮)', 'Том бизнес (10М+ ₮)'] },
       { id: 'duration', label: 'Хугацаа', type: 'select', options: ['1 сар', '3 сар', '6 сар', '1 жил'] },
     ],
-    prompt: (vals) => `You are a senior marketing strategist. Create a comprehensive marketing campaign strategy.\n\nBrand/Product: ${vals.brand}\nCampaign Goal: ${vals.goal}\nBudget: ${vals.budget}\nDuration: ${vals.duration}\n\nWrite in Mongolian language. Include:\n1. CAMPAIGN CONCEPT & THEME\n2. TARGET AUDIENCE breakdown\n3. CHANNEL STRATEGY (which platforms, why)\n4. CONTENT CALENDAR outline (key milestones)\n5. CREATIVE IDEAS (3-5 specific campaign ideas)\n6. KPIs & SUCCESS METRICS\n7. BUDGET ALLOCATION recommendation\n\nBe specific, creative, and actionable for the Mongolian market.`
+    prompt: (vals) => `Та бол Монгол зах зээлийн мэргэжилтэн маркетингийн стратегич. Дараах маркетингийн кампанийн стратегийг ЦЭВЭР МОНГОЛ хэлээр бич.
+
+Бүтээгдэхүүн/Үйлчилгээ: ${vals.product}
+Зорилго: ${vals.goal}
+Төсөв: ${vals.budget}
+Хугацаа: ${vals.timeline}
+
+ЧУХАЛ ШААРДЛАГА — ЗӨВХӨН МОНГОЛ ХЭЛЭЭР:
+1. СТРАТЕГИЙН ТОЙМ — кампанийн ерөнхий чиглэл
+2. ЗОРИЛТОТ ҮЗЭГЧИД — хэн, хаана, яагаад
+3. ГОЛ МЕССЕЖ — нэг тодорхой санаа
+4. СУВАГ, ПЛАТФОРМ — аль платформ хэрэглэх, яагаад
+5. КОНТЕНТИЙН ТӨЛӨВЛӨгөө — юу хийх, хэзээ
+6. ХЭМЖИХ ҮЗҮҮЛЭЛТ — юуг хэрхэн хэмжих
+7. ТӨСВийн ХУВААРИЛАЛТ — мөнгийг хэрхэн зарцуулах
+
+Монгол зах зээлийн онцлог, хэрэглэгчдийн зан төлөвт тохирсон практик стратеги бий болго.`
   },
   photo: {
     name: 'Зургаас Текст Үүсгэх',
@@ -2126,7 +2147,26 @@ Make it practical and easy to apply across all content.`
       { id: 'goal', label: 'Зорилго', type: 'select', options: ['Алдаа засах & Найруулга сайжруулах', 'Илүү мэргэжлийн болгох', 'Илүү найрсаг болгох', 'Богиносгох', 'Дэлгэрэнгүй болгох', 'Маркетинг контент болгох'] },
       { id: 'lang', label: 'Гаралтын хэл', type: 'select', options: ['Монгол', 'Англи', 'Монгол + Англи'] },
     ],
-    prompt: (vals) => `You are an expert Mongolian and English copywriter and editor.\n\nOriginal text:\n"${vals.text}"\n\nTask: ${vals.goal}\nOutput language: ${vals.lang}\n\nProvide:\n1. ЗАСАГДСАН ХУВИЛБАР (improved version)\n2. ӨӨРЧЛӨЛТҮҮД (list of changes made)\n3. НЭМЭЛТ ХУВИЛБАР (alternative version if relevant)\n\nMake the text clear, engaging, and error-free.`
+    prompt: (vals) => `Та бол Монгол хэлний дэлхийн түвшний найруулагч, редактор. Дараах текстийг ХАМГИЙН САЙН МОНГОЛ хэлээр сайжруул.
+
+Анхны текст: ${vals.text}
+Зорилго: ${vals.goal}
+
+ЧУХАЛ ШААРДЛАГА:
+- Монгол хэлний дүрэм, найруулгыг бүрэн зөв хэрэглэ
+- Гэнэн, хиймэл сонсогдох үгсийг устга
+- Байгалийн жамаар урсах, аман хэлтэй ойр текст бий болго
+- Утга санааг хадгалж, илэрхийллийг сайжруул
+- Давтагдах үгс, шаардлагагүй үгсийг хас
+- Хүчтэй үйл үг, тодорхой нэр үг хэрэглэ
+- Монгол хэрэглэгчдэд ойлгомжтой, хаяглалтай байлга
+
+Дараах хэлбэрээр хариул:
+✅ САЙЖРУУЛСАН ТЕКСТ:
+[Сайжруулсан хувилбар]
+
+📝 ӨӨРЧЛӨЛТИЙН ТАЙЛБАР:
+[Юуг яагаад өөрчилсөн]`
   }
 };
 
